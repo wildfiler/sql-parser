@@ -53,7 +53,7 @@ module SQLParser
       attr_accessor :query_expression
       attr_accessor :order_by
       attr_accessor :fetch_only
-      
+
     end
 
     class OrderBy < Node
