@@ -11,9 +11,22 @@ rule
     | insert_specification
 
   direct_select_statement_multiple_rows
-    : query_expression order_by_clause { result = SQLParser::Statement::DirectSelect.new(val[0], val[1]) }
+    : query_expression order_by_clause limit_clause { result = SQLParser::Statement::DirectSelect.new(val[0], val[1], val[2]) }
 
-# module contents
+# limit
+  limit_clause
+    : # no action
+    | LIMIT unsigned_integer { result = SQLParser::Statement::Limit.new(val[1]) }
+    | LIMIT offset_prepend unsigned_integer { result = SQLParser::Statement::Limit.new(val[2], val[1]) }
+    | LIMIT unsigned_integer offset_append { result = SQLParser::Statement::Limit.new(val[1], val[2]) }
+  
+  offset_prepend
+    : unsigned_integer comma { result = val[0] }
+
+  offset_append
+    : OFFSET unsigned_integer { result = val[1] }
+
+# ordering
   order_by_clause
     : # no action
     | ORDER BY sort_specification_list { result = SQLParser::Statement::OrderBy.new(val[2]) }
