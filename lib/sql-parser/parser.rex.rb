@@ -75,124 +75,124 @@ class SQLParser::Parser < Racc::Parser
       when (text = @ss.scan(/\s+/i))
         ;
 
-      when (text = @ss.scan(/SELECT/i))
+      when (text = @ss.scan(/SELECT\s/i))
          action { [:SELECT, text] }
 
-      when (text = @ss.scan(/DATE/i))
+      when (text = @ss.scan(/DATE\s/i))
          action { [:DATE, text] }
 
-      when (text = @ss.scan(/ASC/i))
+      when (text = @ss.scan(/ASC\s/i))
          action { [:ASC, text] }
 
-      when (text = @ss.scan(/AS/i))
+      when (text = @ss.scan(/AS\s/i))
          action { [:AS, text] }
 
-      when (text = @ss.scan(/FROM/i))
+      when (text = @ss.scan(/FROM\s/i))
          action { [:FROM, text] }
 
-      when (text = @ss.scan(/WHERE/i))
+      when (text = @ss.scan(/WHERE\s/i))
          action { [:WHERE, text] }
 
-      when (text = @ss.scan(/BETWEEN/i))
+      when (text = @ss.scan(/BETWEEN\s/i))
          action { [:BETWEEN, text] }
 
-      when (text = @ss.scan(/AND/i))
+      when (text = @ss.scan(/AND\s/i))
          action { [:AND, text] }
 
-      when (text = @ss.scan(/NOT/i))
+      when (text = @ss.scan(/NOT\s/i))
          action { [:NOT, text] }
 
-      when (text = @ss.scan(/INNER/i))
+      when (text = @ss.scan(/INNER\s/i))
          action { [:INNER, text] }
 
-      when (text = @ss.scan(/INSERT/i))
+      when (text = @ss.scan(/INSERT\s/i))
          action { [:INSERT, text] }
 
-      when (text = @ss.scan(/INTO/i))
+      when (text = @ss.scan(/INTO\s/i))
          action { [:INTO, text] }
 
-      when (text = @ss.scan(/IN/i))
+      when (text = @ss.scan(/IN\s/i))
          action { [:IN, text] }
 
-      when (text = @ss.scan(/ORDER/i))
+      when (text = @ss.scan(/ORDER\s/i))
          action { [:ORDER, text] }
 
-      when (text = @ss.scan(/OR/i))
+      when (text = @ss.scan(/OR\s/i))
          action { [:OR, text] }
 
-      when (text = @ss.scan(/LIKE/i))
+      when (text = @ss.scan(/LIKE\s/i))
          action { [:LIKE, text] }
 
-      when (text = @ss.scan(/IS/i))
+      when (text = @ss.scan(/IS\s/i))
          action { [:IS, text] }
 
-      when (text = @ss.scan(/NULL/i))
+      when (text = @ss.scan(/NULL\s/i))
          action { [:NULL, text] }
 
-      when (text = @ss.scan(/COUNT/i))
+      when (text = @ss.scan(/COUNT\s/i))
          action { [:COUNT, text] }
 
-      when (text = @ss.scan(/AVG/i))
+      when (text = @ss.scan(/AVG\s/i))
          action { [:AVG, text] }
 
-      when (text = @ss.scan(/MAX/i))
+      when (text = @ss.scan(/MAX\s/i))
          action { [:MAX, text] }
 
-      when (text = @ss.scan(/MIN/i))
+      when (text = @ss.scan(/MIN\s/i))
          action { [:MIN, text] }
 
-      when (text = @ss.scan(/SUM/i))
+      when (text = @ss.scan(/SUM\s/i))
          action { [:SUM, text] }
 
-      when (text = @ss.scan(/GROUP/i))
+      when (text = @ss.scan(/GROUP\s/i))
          action { [:GROUP, text] }
 
-      when (text = @ss.scan(/BY/i))
+      when (text = @ss.scan(/BY\s/i))
          action { [:BY, text] }
 
-      when (text = @ss.scan(/HAVING/i))
+      when (text = @ss.scan(/HAVING\s/i))
          action { [:HAVING, text] }
 
-      when (text = @ss.scan(/CROSS/i))
+      when (text = @ss.scan(/CROSS\s/i))
          action { [:CROSS, text] }
 
-      when (text = @ss.scan(/JOIN/i))
+      when (text = @ss.scan(/JOIN\s/i))
          action { [:JOIN, text] }
 
-      when (text = @ss.scan(/ON/i))
+      when (text = @ss.scan(/ON\s/i))
          action { [:ON, text] }
 
-      when (text = @ss.scan(/LEFT/i))
+      when (text = @ss.scan(/LEFT\s/i))
          action { [:LEFT, text] }
 
-      when (text = @ss.scan(/OUTER/i))
+      when (text = @ss.scan(/OUTER\s/i))
          action { [:OUTER, text] }
 
-      when (text = @ss.scan(/RIGHT/i))
+      when (text = @ss.scan(/RIGHT\s/i))
          action { [:RIGHT, text] }
 
-      when (text = @ss.scan(/FULL/i))
+      when (text = @ss.scan(/FULL\s/i))
          action { [:FULL, text] }
 
-      when (text = @ss.scan(/USING/i))
+      when (text = @ss.scan(/USING\s/i))
          action { [:USING, text] }
 
-      when (text = @ss.scan(/EXISTS/i))
+      when (text = @ss.scan(/EXISTS\s/i))
          action { [:EXISTS, text] }
 
-      when (text = @ss.scan(/DESC/i))
+      when (text = @ss.scan(/DESC\s/i))
          action { [:DESC, text] }
 
-      when (text = @ss.scan(/CURRENT_USER/i))
-         action { [:CURRENT_USER, text] }
+      when (text = @ss.scan(/CURRENT_USER\s{/i))
+        ;
 
-      when (text = @ss.scan(/VALUES/i))
+      when (text = @ss.scan(/VALUES\s/i))
          action { [:VALUES, text] }
 
-      when (text = @ss.scan(/LIMIT/i))
+      when (text = @ss.scan(/LIMIT\s/i))
          action { [:LIMIT, text] }
 
-      when (text = @ss.scan(/OFFSET/i))
+      when (text = @ss.scan(/OFFSET\s/i))
          action { [:OFFSET, text] }
 
       when (text = @ss.scan(/<>/i))

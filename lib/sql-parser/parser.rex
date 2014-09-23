@@ -36,46 +36,46 @@ rule
             {BLANK}       # no action
 
 # keywords
-            SELECT        { [:SELECT, text] }
-            DATE          { [:DATE, text] }
-            ASC           { [:ASC, text] }
-            AS            { [:AS, text] }
-            FROM          { [:FROM, text] }
-            WHERE         { [:WHERE, text] }
-            BETWEEN       { [:BETWEEN, text] }
-            AND           { [:AND, text] }
-            NOT           { [:NOT, text] }
-            INNER         { [:INNER, text] }
-            INSERT        { [:INSERT, text] }
-            INTO          { [:INTO, text] }
-            IN            { [:IN, text] }
-            ORDER         { [:ORDER, text] }
-            OR            { [:OR, text] }
-            LIKE          { [:LIKE, text] }
-            IS            { [:IS, text] }
-            NULL          { [:NULL, text] }
-            COUNT         { [:COUNT, text] }
-            AVG           { [:AVG, text] }
-            MAX           { [:MAX, text] }
-            MIN           { [:MIN, text] }
-            SUM           { [:SUM, text] }
-            GROUP         { [:GROUP, text] }
-            BY            { [:BY, text] }
-            HAVING        { [:HAVING, text] }
-            CROSS         { [:CROSS, text] }
-            JOIN          { [:JOIN, text] }
-            ON            { [:ON, text] }
-            LEFT          { [:LEFT, text] }
-            OUTER         { [:OUTER, text] }
-            RIGHT         { [:RIGHT, text] }
-            FULL          { [:FULL, text] }
-            USING         { [:USING, text] }
-            EXISTS        { [:EXISTS, text] }
-            DESC          { [:DESC, text] }
-            CURRENT_USER  { [:CURRENT_USER, text] }
-            VALUES        { [:VALUES, text] }
-            LIMIT         { [:LIMIT, text] }
-            OFFSET        { [:OFFSET, text] }
+            SELECT\s      { [:SELECT, text] }
+            DATE\s        { [:DATE, text] }
+            ASC\s         { [:ASC, text] }
+            AS\s          { [:AS, text] }
+            FROM\s        { [:FROM, text] }
+            WHERE\s       { [:WHERE, text] }
+            BETWEEN\s     { [:BETWEEN, text] }
+            AND\s         { [:AND, text] }
+            NOT\s         { [:NOT, text] }
+            INNER\s       { [:INNER, text] }
+            INSERT\s      { [:INSERT, text] }
+            INTO\s        { [:INTO, text] }
+            IN\s          { [:IN, text] }
+            ORDER\s       { [:ORDER, text] }
+            OR\s          { [:OR, text] }
+            LIKE\s        { [:LIKE, text] }
+            IS\s          { [:IS, text] }
+            NULL\s        { [:NULL, text] }
+            COUNT\s       { [:COUNT, text] }
+            AVG\s         { [:AVG, text] }
+            MAX\s         { [:MAX, text] }
+            MIN\s         { [:MIN, text] }
+            SUM\s         { [:SUM, text] }
+            GROUP\s       { [:GROUP, text] }
+            BY\s          { [:BY, text] }
+            HAVING\s      { [:HAVING, text] }
+            CROSS\s       { [:CROSS, text] }
+            JOIN\s        { [:JOIN, text] }
+            ON\s          { [:ON, text] }
+            LEFT\s        { [:LEFT, text] }
+            OUTER\s       { [:OUTER, text] }
+            RIGHT\s       { [:RIGHT, text] }
+            FULL\s        { [:FULL, text] }
+            USING\s       { [:USING, text] }
+            EXISTS\s      { [:EXISTS, text] }
+            DESC\s        { [:DESC, text] }
+            CURRENT_USER\s{ [:CURRENT_USER, text] }
+            VALUES\s      { [:VALUES, text] }
+            LIMIT\s       { [:LIMIT, text] }
+            OFFSET\s      { [:OFFSET, text] }
 
 # tokens
             <>            { [:not_equals_operator, text] }
