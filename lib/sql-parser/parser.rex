@@ -78,8 +78,6 @@ rule
             OFFSET        { [:OFFSET, text] }
 
 # tokens
-            E             { [:E, text] }
-
             <>            { [:not_equals_operator, text] }
             !=            { [:not_equals_operator, text] }
             =             { [:equals_operator, text] }
