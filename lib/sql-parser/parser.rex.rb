@@ -72,6 +72,9 @@ class SQLParser::Parser < Racc::Parser
       when (text = @ss.scan(/[0-9]+/i))
          action { [:unsigned_integer, text.to_i] }
 
+      when (text = @ss.scan(/\w+\(\)/i))
+         action { [:built_in_function, text] }
+
       when (text = @ss.scan(/\s+/i))
         ;
 

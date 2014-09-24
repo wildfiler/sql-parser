@@ -32,6 +32,9 @@ rule
 
             {UINT}        { [:unsigned_integer, text.to_i] }
 
+# built-in functions
+            {IDENT}\(\)   { [:built_in_function, text] }
+
 # skip
             {BLANK}       # no action
 
