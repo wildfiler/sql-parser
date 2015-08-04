@@ -3,7 +3,9 @@ require 'test/unit'
 
 class TestStatement < Test::Unit::TestCase
   def test_direct_select
-    assert_sql 'SELECT * FROM `users` ORDER BY `name`', SQLParser::Statement::DirectSelect.new(select(all, tblx(from(tbl('users')))), SQLParser::Statement::OrderBy.new(col('name')))
+    assert_sql 'SELECT * FROM `users` ORDER BY `name` LIMIT 10', SQLParser::Statement::DirectSelect.new(select(all, tblx(from(tbl('users')))),
+                                                                                               SQLParser::Statement::OrderBy.new(col('name')),
+                                                                                               SQLParser::Statement::Limit.new(10))
   end
 
   def test_order_by
