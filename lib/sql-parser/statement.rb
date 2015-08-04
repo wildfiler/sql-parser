@@ -44,7 +44,7 @@ module SQLParser
     
     class DirectSelect < Node
       
-      def initialize(query_expression, order_by, limit)
+      def initialize(query_expression, order_by, limit = nil)
         @query_expression = query_expression
         @order_by = order_by
         @limit = limit
