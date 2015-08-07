@@ -280,8 +280,11 @@ class TestParser < Test::Unit::TestCase
     assert_sql %{SELECT ''}, %{SELECT ""}
     assert_understands %{SELECT ''}
 
-    # assert_sql %{SELECT 'Quote "this"'}, %{SELECT "Quote ""this"""}
-    # assert_understands %{SELECT 'Quote ''this!'''}
+    assert_sql %{SELECT 'Quote "this"'}, %{SELECT "Quote ""this"""}
+    assert_understands %{SELECT 'Quote ''this!'''}
+
+    assert_sql "SELECT 'abc', '123'", "SELECT 'abc', '123'"
+    assert_sql "SELECT 'abc', '123'", 'SELECT "abc", "123"'
 
     # # FIXME
     # assert_sql %{SELECT '"'}, %{SELECT """"}
@@ -357,11 +360,6 @@ class TestParser < Test::Unit::TestCase
   def test_unsigned_integer
     assert_understands 'SELECT 1'
     assert_understands 'SELECT 10'
-  end
-
-
-  def test_single_quoted_string
-    assert_understands "SELECT 'abc', '123'"
   end
 
 
