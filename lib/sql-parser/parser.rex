@@ -24,11 +24,11 @@ rule
 
             \'            { self.state = :STRS;  [:quote, text] }
   :STRS     \'            { self.state = nil;    [:quote, text] }
-  :STRS     .*(?=\')      {                 [:character_string_literal, text.gsub("''", "'")] }
+  :STRS     .*?(?=\')      {                 [:character_string_literal, text.gsub("''", "'")] }
 
             \"            { self.state = :STRD;  [:quote, text] }
   :STRD     \"            { self.state = nil;    [:quote, text] }
-  :STRD     .*(?=\")      {                 [:character_string_literal, text.gsub('""', '"')] }
+  :STRD     .*?(?=\")      {                 [:character_string_literal, text.gsub('""', '"')] }
 
             {UINT}        { [:unsigned_integer, text.to_i] }
 
