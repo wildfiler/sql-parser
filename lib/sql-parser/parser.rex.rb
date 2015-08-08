@@ -93,6 +93,24 @@ class SQLParser::Parser < Racc::Parser
       when (text = @ss.scan(/WHERE/i))
          action { [:WHERE, text] }
 
+      when (text = @ss.scan(/OFFSET/i))
+         action { [:OFFSET, text] }
+
+      when (text = @ss.scan(/ROWS/i))
+         action { [:ROWS, text] }
+
+      when (text = @ss.scan(/FETCH/i))
+         action { [:FETCH, text] }
+
+      when (text = @ss.scan(/FIRST/i))
+         action { [:FIRST, text] }
+
+      when (text = @ss.scan(/NEXT/i))
+         action { [:NEXT, text] }
+
+      when (text = @ss.scan(/ONLY/i))
+         action { [:ONLY, text] }
+
       when (text = @ss.scan(/BETWEEN/i))
          action { [:BETWEEN, text] }
 

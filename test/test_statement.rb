@@ -10,6 +10,10 @@ class TestStatement < Test::Unit::TestCase
     assert_sql 'ORDER BY `name`', SQLParser::Statement::OrderBy.new(col('name'))
   end
 
+  def test_fetch_only
+    assert_sql 'FETCH FIRST 1 ROWS ONLY', SQLParser::Statement::FetchOnly.new(1)
+  end
+
   def test_subquery
     assert_sql '(SELECT 1)', SQLParser::Statement::Subquery.new(select(int(1)))
   end

@@ -45,6 +45,12 @@ rule
             AS            { [:AS, text] }
             FROM          { [:FROM, text] }
             WHERE         { [:WHERE, text] }
+            OFFSET        { [:OFFSET, text] }
+            ROWS          { [:ROWS, text] }
+            FETCH         { [:FETCH, text] }
+            FIRST         { [:FIRST, text] }
+            NEXT          { [:NEXT, text] }
+            ONLY          { [:ONLY, text] }
             BETWEEN       { [:BETWEEN, text] }
             AND           { [:AND, text] }
             NOT           { [:NOT, text] }

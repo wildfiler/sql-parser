@@ -20,12 +20,17 @@ module SQLParser
     def visit_DirectSelect(o)
       [
         o.query_expression,
-        o.order_by
+        o.order_by,
+        o.fetch_only
       ].compact.collect { |e| visit(e) }.join(' ')
     end
 
     def visit_OrderBy(o)
       "ORDER BY #{arrayize(o.sort_specification)}"
+    end
+
+    def visit_FetchOnly(o)
+      "FETCH FIRST #{o.row_count} ROWS ONLY"
     end
 
     def visit_Subquery(o)

@@ -11,12 +11,16 @@ rule
     | insert_specification
 
   direct_select_statement_multiple_rows
-    : query_expression order_by_clause { result = SQLParser::Statement::DirectSelect.new(val[0], val[1]) }
+    : query_expression order_by_clause fetch_only_clause { result = SQLParser::Statement::DirectSelect.new(val[0], val[1], val[2]) }
 
 # module contents
   order_by_clause
     : # no action
     | ORDER BY sort_specification_list { result = SQLParser::Statement::OrderBy.new(val[2]) }
+
+  fetch_only_clause
+    : # no action
+    | FETCH FIRST unsigned_integer ROWS ONLY  { result = SQLParser::Statement::FetchOnly.new(val[2]) }
 
   sort_specification_list
     : sort_specification_list comma sort_specification { result = Array(val[0]) + Array(val[2]) }

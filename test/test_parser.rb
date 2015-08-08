@@ -363,6 +363,11 @@ class TestParser < Test::Unit::TestCase
   end
 
 
+  def test_fetch_first
+    assert_understands 'SELECT * FROM `users` FETCH FIRST 10 ROWS ONLY'
+  end
+
+
   private
 
   def assert_sql(expected, given)
