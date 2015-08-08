@@ -226,12 +226,8 @@ rule
     : value_expression
 
   value_expression
-    : numeric_value_expression
-    | general_literal
-
-  numeric_value_expression
-    : term plus_sign numeric_value_expression { result = SQLParser::Statement::Add.new(val[0], val[2]) }
-    | term minus_sign numeric_value_expression { result = SQLParser::Statement::Subtract.new(val[0], val[2]) }
+    : term plus_sign value_expression { result = SQLParser::Statement::Add.new(val[0], val[2]) }
+    | term minus_sign value_expression { result = SQLParser::Statement::Subtract.new(val[0], val[2]) }
     | term
 
   term
