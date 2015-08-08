@@ -500,9 +500,6 @@ module SQLParser
     class String < Literal
     end
 
-    class BuiltInFunction < Literal
-    end
-
     class ApproximateFloat < Node
       
       def initialize(mantissa, exponent)

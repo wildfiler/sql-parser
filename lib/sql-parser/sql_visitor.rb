@@ -305,10 +305,6 @@ module SQLParser
       "'%s'" % escape(o.value)
     end
 
-    def visit_BuiltInFunction(o)
-      o.value
-    end
-
     def visit_ApproximateFloat(o)
       "#{visit(o.mantissa)}E#{visit(o.exponent)}"
     end
