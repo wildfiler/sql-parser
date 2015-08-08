@@ -20,7 +20,8 @@ rule
 
   fetch_only_clause
     : # no action
-    | FETCH FIRST unsigned_integer ROWS ONLY  { result = SQLParser::Statement::FetchOnly.new(val[2]) }
+    | FETCH FIRST unsigned_integer ROWS ONLY  { result = SQLParser::Statement::FetchOnly.new(0, val[2]) }
+    | OFFSET unsigned_integer ROWS FETCH NEXT unsigned_integer ROWS ONLY  { result = SQLParser::Statement::FetchOnly.new(val[1], val[5]) }
 
   sort_specification_list
     : sort_specification_list comma sort_specification { result = Array(val[0]) + Array(val[2]) }

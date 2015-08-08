@@ -365,6 +365,7 @@ class TestParser < Test::Unit::TestCase
 
   def test_fetch_first
     assert_understands 'SELECT * FROM `users` FETCH FIRST 10 ROWS ONLY'
+    assert_understands 'SELECT * FROM `users` OFFSET 30 ROWS FETCH NEXT 10 ROWS ONLY'
   end
 
 

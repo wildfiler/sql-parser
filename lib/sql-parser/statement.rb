@@ -68,10 +68,12 @@ module SQLParser
 
     class FetchOnly < Node
 
-      def initialize(row_count)
+      def initialize(offset, row_count)
+        @offset = offset
         @row_count = row_count
       end
 
+      attr_accessor :offset
       attr_accessor :row_count
 
     end

@@ -11,7 +11,8 @@ class TestStatement < Test::Unit::TestCase
   end
 
   def test_fetch_only
-    assert_sql 'FETCH FIRST 1 ROWS ONLY', SQLParser::Statement::FetchOnly.new(1)
+    assert_sql 'FETCH FIRST 1 ROWS ONLY', SQLParser::Statement::FetchOnly.new(0, 1)
+    assert_sql 'OFFSET 2 ROWS FETCH NEXT 1 ROWS ONLY', SQLParser::Statement::FetchOnly.new(2, 1)
   end
 
   def test_subquery
