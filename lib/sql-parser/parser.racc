@@ -287,6 +287,10 @@ rule
     | period unsigned_integer { result = SQLParser::Statement::Float.new("0.#{val[1]}".to_f) }
     | unsigned_integer { result = SQLParser::Statement::Integer.new(val[0]) }
 
+  sign
+    : plus_sign { result = SQLParser::Statement::UnaryPlus }
+    | minus_sign { result = SQLParser::Statement::UnaryMinus }
+
 # sql module
   column_name
     : identifier { result = SQLParser::Statement::Column.new(val[0]) }
