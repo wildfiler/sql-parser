@@ -497,12 +497,6 @@ module SQLParser
       
     end
 
-    class DateTime < Literal
-    end
-
-    class Date < Literal
-    end
-
     class String < Literal
     end
 

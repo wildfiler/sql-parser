@@ -11,7 +11,6 @@ macro
   YEARS   {UINT}
   MONTHS  {UINT}
   DAYS    {UINT}
-  DATE    {YEARS}-{MONTHS}-{DAYS}
 
   IDENT   \w+
 
@@ -22,8 +21,6 @@ rule
 # [:state]  pattern       [actions]
 
 # literals
-            \"{DATE}\"    { [:date_string, Date.parse(text)] }
-            \'{DATE}\'    { [:date_string, Date.parse(text)] }
 
             \'            { self.state = :STRS;  [:quote, text] }
   :STRS     \'            { self.state = nil;    [:quote, text] }
@@ -40,7 +37,6 @@ rule
 
 # keywords
             SELECT        { [:SELECT, text] }
-            DATE          { [:DATE, text] }
             ASC           { [:ASC, text] }
             AS            { [:AS, text] }
             FROM          { [:FROM, text] }

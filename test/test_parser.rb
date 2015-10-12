@@ -272,8 +272,8 @@ class TestParser < Test::Unit::TestCase
   end
 
   def test_date
-    assert_sql "SELECT DATE '2008-07-11'", 'SELECT DATE "2008-07-11"'
-    assert_understands "SELECT DATE '2008-07-11'"
+    assert_sql "SELECT '2008-07-11'", 'SELECT "2008-07-11"'
+    assert_understands "SELECT '2008-07-11'"
   end
 
   def test_quoting

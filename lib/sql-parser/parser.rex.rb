@@ -57,12 +57,6 @@ class SQLParser::Parser < Racc::Parser
     token = case @state
     when nil
       case
-      when (text = @ss.scan(/\"[0-9]+-[0-9]+-[0-9]+\"/i))
-         action { [:date_string, Date.parse(text)] }
-
-      when (text = @ss.scan(/\'[0-9]+-[0-9]+-[0-9]+\'/i))
-         action { [:date_string, Date.parse(text)] }
-
       when (text = @ss.scan(/\'/i))
          action { self.state = :STRS;  [:quote, text] }
 
@@ -77,9 +71,6 @@ class SQLParser::Parser < Racc::Parser
 
       when (text = @ss.scan(/SELECT/i))
          action { [:SELECT, text] }
-
-      when (text = @ss.scan(/DATE/i))
-         action { [:DATE, text] }
 
       when (text = @ss.scan(/ASC/i))
          action { [:ASC, text] }

@@ -298,7 +298,7 @@ module SQLParser
     end
 
     def visit_Date(o)
-      "DATE '%s'" % escape(o.value.strftime('%Y-%m-%d'))
+      "'%s'" % escape(o.value)
     end
 
     def visit_String(o)
