@@ -30,7 +30,7 @@ class TestStatement < Test::Unit::TestCase
   end
 
   def test_distinct
-    assert_sql 'DISTINCT(`username`)', distinct(col('username'))
+    assert_sql 'DISTINCT `username`', distinct([col('username')])
   end
 
   def test_all
@@ -290,8 +290,8 @@ class TestStatement < Test::Unit::TestCase
     SQLParser::Statement::Table.new(name)
   end
 
-  def distinct(col)
-    SQLParser::Statement::Distinct.new(col)
+  def distinct(cols)
+    SQLParser::Statement::Distinct.new(SQLParser::Statement::SelectList.new(cols))
   end
 
   def slist(ary)

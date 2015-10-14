@@ -37,6 +37,7 @@ rule
 
 # keywords
             SELECT        { [:SELECT, text] }
+            DISTINCT      { [:DISTINCT, text] }
             ASC           { [:ASC, text] }
             AS            { [:AS, text] }
             FROM          { [:FROM, text] }

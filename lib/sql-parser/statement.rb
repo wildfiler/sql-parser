@@ -111,11 +111,11 @@ module SQLParser
 
     class Distinct < Node
       
-      def initialize(column)
-        @column = column
+      def initialize(columns)
+        @columns = columns
       end
 
-      attr_accessor :column
+      attr_accessor :columns
       
     end
 

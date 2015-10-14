@@ -72,6 +72,9 @@ class SQLParser::Parser < Racc::Parser
       when (text = @ss.scan(/SELECT/i))
          action { [:SELECT, text] }
 
+      when (text = @ss.scan(/DISTINCT/i))
+         action { [:DISTINCT, text] }
+
       when (text = @ss.scan(/ASC/i))
          action { [:ASC, text] }
 

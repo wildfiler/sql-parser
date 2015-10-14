@@ -343,6 +343,12 @@ class TestParser < Test::Unit::TestCase
   end
 
 
+  def test_select_distinct
+    assert_sql 'SELECT DISTINCT `name` FROM `users`', 'SELECT DISTINCT `name` FROM `users`'
+    assert_understands 'SELECT DISTINCT `name` FROM `users`'
+  end
+
+
   private
 
   def assert_sql(expected, given)
