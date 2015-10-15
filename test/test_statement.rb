@@ -31,6 +31,7 @@ class TestStatement < Test::Unit::TestCase
 
   def test_distinct_selectlist
     assert_sql 'DISTINCT `username`', distinct([col('username')])
+    assert_sql 'SELECT DISTINCT `username` FROM `users`', pp(select(distinct([col('username')]), tblx(from(tbl('users')))))
   end
 
   def test_all
