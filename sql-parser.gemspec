@@ -4,7 +4,7 @@ require 'sql-parser/version'
 Gem::Specification.new do |s|
   
   s.name        = 'sql-parser'
-  s.version     = SQLParser::VERSION
+  s.version     = %Q[#{SQLParser::VERSION}.#{ENV['BUILD_NUMBER'] || `hostname`.strip}]
   s.authors     = ['Dray Lacy', 'Louis Mullie']
   s.email       = ['dray@izea.com', 'louis.mullie@gmail.com']
   s.homepage    = 'https://github.com/louismullie/sql-parser'

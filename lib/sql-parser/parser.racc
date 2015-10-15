@@ -65,14 +65,15 @@ rule
   query_specification
     : SELECT select_list table_expression { result = SQLParser::Statement::Select.new(val[1], val[2]) }
     | SELECT select_list { result = SQLParser::Statement::Select.new(val[1]) }
+    | SELECT distinct_select_list table_expression { result = SQLParser::Statement::Select.new(val[1], val[2]) }
+    | SELECT distinct_select_list { result = SQLParser::Statement::Select.new(val[1]) }
 
   select_list
     : asterisk { result = SQLParser::Statement::All.new }
-    | distinct_select_list
     | select_sublist { result = SQLParser::Statement::SelectList.new(val[0]) }
 
   distinct_select_list
-    : DISTINCT select_sublist { result = SQLParser::Statement::Distinct.new(SQLParser::Statement::SelectList.new(val[1])) }
+    : DISTINCT select_list { result = SQLParser::Statement::Distinct.new(val[1]) }
 
   select_sublist
     : derived_column comma select_sublist { result = Array(val[0]) + Array(val[2]) }
