@@ -63,10 +63,10 @@ rule
     : VALUES left_paren in_value_list right_paren { result = SQLParser::Statement::InValueList.new(val[2]) }
 
   query_specification
-    : SELECT select_list table_expression { result = SQLParser::Statement::Select.new(val[1], val[2]) }
-    | SELECT select_list { result = SQLParser::Statement::Select.new(val[1]) }
-    | SELECT distinct_select_list table_expression { result = SQLParser::Statement::Select.new(val[1], val[2]) }
+    : SELECT distinct_select_list table_expression { result = SQLParser::Statement::Select.new(val[1], val[2]) }
     | SELECT distinct_select_list { result = SQLParser::Statement::Select.new(val[1]) }
+    | SELECT select_list table_expression { result = SQLParser::Statement::Select.new(val[1], val[2]) }
+    | SELECT select_list { result = SQLParser::Statement::Select.new(val[1]) }
 
   select_list
     : asterisk { result = SQLParser::Statement::All.new }
