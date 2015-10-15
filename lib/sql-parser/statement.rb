@@ -109,14 +109,7 @@ module SQLParser
       
     end
 
-    class Distinct < Node
-      
-      def initialize(list)
-        @list = list
-      end
-
-      attr_accessor :list
-      
+    class Distinct < SelectList
     end
 
     class All < Node

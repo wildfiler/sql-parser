@@ -53,7 +53,7 @@ module SQLParser
     end
 
     def visit_Distinct(o)
-      "DISTINCT %s" % visit(o.list)
+      "DISTINCT %s" % visit_SelectList(o)
     end
 
     def visit_All(o)
