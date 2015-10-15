@@ -292,7 +292,7 @@ class TestStatement < Test::Unit::TestCase
   end
 
   def distinct(cols)
-    SQLParser::Statement::Distinct.new(cols)
+    SQLParser::Statement::Distinct.new(slist(cols))
   end
 
   def slist(ary)
