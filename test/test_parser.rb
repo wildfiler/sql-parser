@@ -227,6 +227,11 @@ class TestParser < Test::Unit::TestCase
     assert_understands 'SELECT COUNT(`id`) FROM `users`'
   end
 
+  def test_in
+    assert_understands 'SELECT `name` FROM `users` WHERE `id` IN (1)'
+    assert_understands 'SELECT `name` FROM `users` WHERE `id` IN (1, 2)'
+  end
+
   def test_from_clause
     assert_understands 'SELECT 1 FROM `users`'
     assert_understands 'SELECT `id` FROM `users`'

@@ -1168,7 +1168,7 @@ module_eval(<<'.,.,', 'parser.racc', 162)
 
 module_eval(<<'.,.,', 'parser.racc', 166)
   def _reduce_77(val, _values, result)
-     result = SQLParser::Statement::InValueList.new(val[1]) 
+     result = SQLParser::Statement::InValueList.new(Array(val[1])) 
     result
   end
 .,.,
