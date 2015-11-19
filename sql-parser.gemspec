@@ -13,11 +13,12 @@ Gem::Specification.new do |s|
 
   s.files = Dir.glob('lib/**/*')
   
-  s.add_runtime_dependency 'racc', '1.4.12'
-  
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'rexical', '1.0.5'
-  s.add_development_dependency 'rake'
+  s.add_runtime_dependency 'racc', '~> 1.4'
+  s.add_runtime_dependency 'rexical', '~> 1'
+
+  s.add_development_dependency 'rspec', '~> 0'
+  s.add_development_dependency 'rake', '~> 0'
+  s.add_development_dependency 'geminabox_client', '~> 0'
   s.add_development_dependency 'pry-byebug'
   
 end
