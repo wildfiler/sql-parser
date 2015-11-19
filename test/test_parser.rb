@@ -27,6 +27,10 @@ class TestParser < Test::Unit::TestCase
     assert_sql 'SELECT * FROM `users` WHERE `id` = 1', 'select * from users where id = 1'
   end
 
+  def test_multiline
+    assert_sql 'SELECT * FROM `users`', "SELECT * \nFROM `users`"
+  end
+
   def test_subquery_in_where_clause
     assert_understands 'SELECT * FROM `t1` WHERE `id` > (SELECT SUM(`a`) FROM `t2`)'
   end
