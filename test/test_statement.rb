@@ -257,6 +257,19 @@ class TestStatement < Test::Unit::TestCase
     assert_sql '1', int(1)
   end
 
+  def test_functioncall
+    assert_sql 'function(1)', SQLParser::Statement::FunctionCall.new('function', int(1))
+  end
+
+  def test_functioncall_no_arguments
+    assert_sql 'function()', SQLParser::Statement::FunctionCall.new('function', nil)
+  end
+
+  def test_functioncall_multiple_arguments
+    assert_sql 'function(1, 2, 3)', SQLParser::Statement::FunctionCall.new('function', [int(1),int(2),int(3)])
+  end
+
+
   private
 
   def assert_sql(expected, ast)

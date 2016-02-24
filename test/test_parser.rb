@@ -10,17 +10,17 @@ class TestParser < Test::Unit::TestCase
     assert_understands 'SELECT `CURRENT_USER`'
     assert_understands 'SELECT `current_user`'
   end
-  
+
   def test_insert_into_clause
     assert_understands 'INSERT INTO `users` VALUES (1, 2)'
     assert_understands 'INSERT INTO `users` VALUES (`a`, `b`)'
   end
-  
+
   def test_insert_with_quotes
     q =  'INSERT INTO "users" ("active", "created_on", "email", "last_login", "password", "salt", "username") VALUES ("a", "b", "c", "c", "e")'
     q.gsub!(/([^\\])"/) { $1 + '`' }
     assert_understands q
-    
+
   end
 
   def test_case_insensitivity
@@ -356,6 +356,51 @@ class TestParser < Test::Unit::TestCase
     assert_sql 'SELECT DISTINCT `name` FROM `users`', 'SELECT DISTINCT `name` FROM `users`'
     assert_understands 'SELECT DISTINCT `name` FROM `users`'
   end
+
+
+  def test_function_calls_in_where_clause
+    assert_understands 'SELECT `name` FROM `users` WHERE function(`name`)'
+  end
+
+
+  def test_function_calls_in_complex_where_clause
+    assert_understands 'SELECT `name` FROM `users` WHERE (function(`name`) AND `name` IS NOT NULL)'
+  end
+
+
+  def test_function_calls_in_more_complex_where_clause
+    assert_understands 'SELECT `name` FROM `users` WHERE ((`age` = 10 OR function(`name`)) AND `name` IS NOT NULL)'
+  end
+
+
+  def test_function_calls_in_where_clause_complex_argument_nested_operation
+    assert_understands 'SELECT `name` FROM `users` WHERE ((`age` = 10 OR function(2)) AND `name` IS NOT NULL)'
+  end
+
+
+  def test_function_calls_in_where_clause_with_multiple_arguments
+    assert_understands 'SELECT `name` FROM `users` WHERE function(`name`, `age`)'
+  end
+
+
+  def test_function_calls_in_where_clause_in_comparision_left
+    assert_understands 'SELECT `name` FROM `users` WHERE function(`name`, `age`) = 1'
+  end
+
+
+  def test_function_calls_in_where_clause_in_comparision_right
+    assert_understands 'SELECT `name` FROM `users` WHERE 1 = function(`name`, `age`)'
+  end
+
+
+  def test_geometry_function_example
+    assert_understands "SELECT * FROM `TABLE` AS `a` WHERE ST_Point_Inside_Circle(`a`.`geom`, `x`, `y`, `R`)"
+  end
+
+  def test_geometry_function_example_with_numbers
+  assert_understands "SELECT * FROM `TABLE` AS `a` WHERE ST_Point_Inside_Circle(`a`.`geom`, 3.4, 1.2, 3.5)"
+  end
+
 
 
   private

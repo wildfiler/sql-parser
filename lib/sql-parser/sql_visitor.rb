@@ -321,6 +321,15 @@ module SQLParser
       o.value.to_s
     end
 
+    def visit_FunctionCall(o)
+      "#{o.name}(#{arrayize(o.argument)})"
+    end
+
+    def visit_BooleanFunction(o)
+      "#{o.name}(#{arrayize(o.argument)})"
+    end
+
+
     private
 
     def negate

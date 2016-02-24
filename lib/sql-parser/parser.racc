@@ -196,6 +196,7 @@ rule
   search_condition
     : boolean_term
     | search_condition OR boolean_term { result = SQLParser::Statement::Or.new(val[0], val[2]) }
+    
 
   boolean_term
     : boolean_factor
@@ -204,9 +205,11 @@ rule
   boolean_factor:
     : NOT boolean_test { result = SQLParser::Statement::Not.new(val[1]) }
     | boolean_test
+    | boolean_function
 
   boolean_test
     : boolean_primary
+    
 
   boolean_primary
     : predicate
@@ -219,6 +222,7 @@ rule
     | like_predicate
     | null_predicate
     | exists_predicate
+    
 
   comparison_predicate
     : row_value_constructor equals_operator row_value_constructor { result = SQLParser::Statement::Equals.new(val[0], val[2]) }
@@ -232,8 +236,11 @@ rule
     : row_value_constructor_element
     | row_subquery
 
+
   row_value_constructor_element
     : value_expression
+    | general_function
+    
 
   value_expression
     : term plus_sign value_expression { result = SQLParser::Statement::Add.new(val[0], val[2]) }
@@ -283,6 +290,17 @@ rule
     | MAX left_paren value_expression right_paren { result = SQLParser::Statement::Maximum.new(val[2]) }
     | MIN left_paren value_expression right_paren { result = SQLParser::Statement::Minimum.new(val[2]) }
     | SUM left_paren value_expression right_paren { result = SQLParser::Statement::Sum.new(val[2]) }
+
+# arbitrary function calls
+  general_function
+    : identifier left_paren argument_list right_paren { result = SQLParser::Statement::FunctionCall.new(val[0], val[2]) }
+
+  boolean_function
+    : identifier left_paren argument_list right_paren { result = SQLParser::Statement::BooleanFunction.new(val[0], val[2]) }
+
+  argument_list
+    : value_expression
+    | value_expression comma argument_list { result = Array(val[0]) + Array(val[2]) }
 
 # literal numbers, strings, dates and times
   unsigned_numeric_literal
