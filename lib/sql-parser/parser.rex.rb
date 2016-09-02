@@ -63,7 +63,10 @@ class SQLParser::Parser < Racc::Parser
       when (text = @ss.scan(/\"/i))
          action { self.state = :STRD;  [:quote, text] }
 
-      when (text = @ss.scan(/[0-9]+/i))
+      when (text = @ss.scan(/[0-9]*\.[0-9]+/i))
+         action { [:unsigned_float, text.to_f] }
+
+      when (text = @ss.scan(/[0-9]+\.?/i))
          action { [:unsigned_integer, text.to_i] }
 
       when (text = @ss.scan(/\s+/i))

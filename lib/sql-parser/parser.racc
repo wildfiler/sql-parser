@@ -48,17 +48,17 @@ rule
   query_expression
     : query_specification
 
-  insert_specification 
+  insert_specification
     : INSERT INTO table_reference value_list { result = SQLParser::Statement::Insert.new(val[2], nil, val[3]) }
     | INSERT INTO table_reference column_list value_list { result = SQLParser::Statement::Insert.new(val[2], val[3], val[4]) }
 
   column_list
     : left_paren in_column_list right_paren { result = SQLParser::Statement::InColumnList.new(val[1]) }
- 
+
   in_column_list
     : value_expression comma in_column_list { result = Array(val[0]) + Array(val[2]) }
 	  | value_expression
-  
+
   value_list
     : VALUES left_paren in_value_list right_paren { result = SQLParser::Statement::InValueList.new(val[2]) }
 
@@ -196,7 +196,7 @@ rule
   search_condition
     : boolean_term
     | search_condition OR boolean_term { result = SQLParser::Statement::Or.new(val[0], val[2]) }
-    
+
 
   boolean_term
     : boolean_factor
@@ -209,7 +209,7 @@ rule
 
   boolean_test
     : boolean_primary
-    
+
 
   boolean_primary
     : predicate
@@ -222,7 +222,7 @@ rule
     | like_predicate
     | null_predicate
     | exists_predicate
-    
+
 
   comparison_predicate
     : row_value_constructor equals_operator row_value_constructor { result = SQLParser::Statement::Equals.new(val[0], val[2]) }
@@ -240,7 +240,7 @@ rule
   row_value_constructor_element
     : value_expression
     | general_function
-    
+
 
   value_expression
     : term plus_sign value_expression { result = SQLParser::Statement::Add.new(val[0], val[2]) }
@@ -304,10 +304,8 @@ rule
 
 # literal numbers, strings, dates and times
   unsigned_numeric_literal
-    : unsigned_integer period unsigned_integer { result = SQLParser::Statement::Float.new("#{val[0]}.#{val[2]}".to_f) }
-    | unsigned_integer period { result = SQLParser::Statement::Float.new(val[0]) }
-    | period unsigned_integer { result = SQLParser::Statement::Float.new("0.#{val[1]}".to_f) }
-    | unsigned_integer { result = SQLParser::Statement::Integer.new(val[0]) }
+    : unsigned_integer { result = SQLParser::Statement::Integer.new(val[0]) }
+    | unsigned_float {result = SQLParser::Statement::Float.new(val[0])}
 
   sign
     : plus_sign { result = SQLParser::Statement::UnaryPlus }

@@ -5,7 +5,9 @@ option
 
 macro
   DIGIT   [0-9]
-  UINT    {DIGIT}+
+  UINT    {DIGIT}+\.?
+  UFLOAT   [0-9]*\.[0-9]+
+
   BLANK   \s+
 
   YEARS   {UINT}
@@ -30,6 +32,7 @@ rule
   :STRD     \"            { self.state = nil;    [:quote, text] }
   :STRD     {DQSTR}       {                 [:character_string_literal, text.gsub('""', '"')] }
 
+            {UFLOAT}      { [:unsigned_float, text.to_f] }
             {UINT}        { [:unsigned_integer, text.to_i] }
 
 # skip

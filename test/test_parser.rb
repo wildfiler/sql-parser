@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../lib/sql-parser'
+require_relative 'helper'
 require 'test/unit'
 
 class TestParser < Test::Unit::TestCase
@@ -328,6 +328,10 @@ class TestParser < Test::Unit::TestCase
   def test_unsigned_float
     assert_sql 'SELECT 1', 'SELECT 1.'
     assert_sql 'SELECT 0.1', 'SELECT .1'
+    assert_sql 'SELECT 0.01', 'SELECT .01'
+    assert_sql 'SELECT 0.001', 'SELECT .001'
+    assert_sql 'SELECT 1.01', 'SELECT 1.01'
+    assert_sql 'SELECT 1.001', 'SELECT 1.001'
 
     assert_understands 'SELECT 0.1'
     assert_understands 'SELECT 1.0'
