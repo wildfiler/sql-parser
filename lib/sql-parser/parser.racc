@@ -242,11 +242,22 @@ rule
     : value_expression
     | general_function
 
+  case_expression
+    : CASE when_expressions END { result = SQLParser::Statement::CaseClause.new(val[1], nil) } 
+    | CASE when_expressions ELSE value_expression END  { result = SQLParser::Statement::CaseClause.new(val[1], val[3]) }
+
+  when_expression
+   : WHEN search_condition THEN value_expression { result = SQLParser::Statement::WhenClause.new(val[1], val[3])  } 
+
+  when_expressions
+   : when_expression { result = [ val[0] ] } 
+   | when_expressions when_expression { result = [ *val[0], val[1] ] }
 
   value_expression
     : term plus_sign value_expression { result = SQLParser::Statement::Add.new(val[0], val[2]) }
     | term minus_sign value_expression { result = SQLParser::Statement::Subtract.new(val[0], val[2]) }
     | term
+    | case_expression
 
   term
     : factor asterisk term { result = SQLParser::Statement::Multiply.new(val[0], val[2]) }

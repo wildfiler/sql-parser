@@ -182,6 +182,26 @@ module SQLParser
 
     end
 
+    class CaseClause < Node
+      def initialize(branches, elsepart)
+        @branches = branches
+        @elsepart = elsepart
+      end
+
+      attr_accessor :branches
+      attr_accessor :elsepart
+    end
+
+    class WhenClause < Node
+      def initialize(condition, value)
+        @condition = condition
+        @value = value
+      end
+
+      attr_accessor :condition
+      attr_accessor :value
+    end
+
     class GroupByClause < Node
 
       def initialize(columns)

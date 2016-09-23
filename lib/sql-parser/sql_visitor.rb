@@ -257,6 +257,20 @@ module SQLParser
       arithmetic('*', o)
     end
 
+    def visit_CaseClause(o)
+      case_parts = o.branches.map { |wc| visit(wc) }
+
+      if o.elsepart
+        case_parts << "ELSE #{visit(o.elsepart)}"
+      end
+
+      ["CASE", *case_parts, "END"].join(" ")
+    end
+
+    def visit_WhenClause(o)
+      "WHEN #{visit(o.condition)} THEN #{visit(o.value)}"
+    end
+
     def visit_Divide(o)
       arithmetic('/', o)
     end

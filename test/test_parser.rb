@@ -429,7 +429,21 @@ class TestParser < Test::Unit::TestCase
     assert_understands "SELECT 1 FROM `table` WHERE NOT FALSE"
   end
 
+  def test_case_when_expression
+    assert_understands "SELECT CASE WHEN `is_mobile` = TRUE THEN `platform` END FROM `table_name`"
+  end
 
+  def test_case_when_expression_with_else
+    assert_understands "SELECT CASE WHEN `is_mobile` = TRUE THEN `platform` ELSE 'desktop' END FROM `table_name`"
+  end
+
+  def test_case_when_expression_with_two_branches_and_else
+    assert_understands "SELECT CASE WHEN `is_mobile` = 1 THEN 'good' WHEN `is_mobile` = 2 THEN 'better' ELSE 'best' END FROM `table_name`"
+  end
+
+  def test_case_when_expression_with_multiple_branches_and_else
+    assert_understands "SELECT CASE WHEN `is_mobile` = 1 THEN 'good' WHEN `is_mobile` = 2 THEN 'better' WHEN `is_mobile` = 3 THEN 'even better' ELSE 'best' END FROM `table_name`"
+  end
 
   private
 
