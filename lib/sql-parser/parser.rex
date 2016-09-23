@@ -19,6 +19,9 @@ macro
   SQSTR   ([^']|'')*
   DQSTR   ([^"]|"")*
 
+  TRUE   true
+  FALSE  false
+
 rule
 # [:state]  pattern       [actions]
 
@@ -27,6 +30,8 @@ rule
             \'            { self.state = :STRS;  [:quote, text] }
   :STRS     \'            { self.state = nil;    [:quote, text] }
   :STRS     {SQSTR}       {                 [:character_string_literal, text.gsub("''", "'")] }
+            {TRUE}        { [:true_literal, true] }
+            {FALSE}       { [:false_literal, false] }
 
             \"            { self.state = :STRD;  [:quote, text] }
   :STRD     \"            { self.state = nil;    [:quote, text] }

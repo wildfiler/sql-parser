@@ -302,7 +302,7 @@ rule
     : value_expression
     | value_expression comma argument_list { result = Array(val[0]) + Array(val[2]) }
 
-# literal numbers, strings, dates and times
+# literal numbers, strings, dates and times, booleans
   unsigned_numeric_literal
     : unsigned_integer { result = SQLParser::Statement::Integer.new(val[0]) }
     | unsigned_float {result = SQLParser::Statement::Float.new(val[0])}
@@ -320,6 +320,8 @@ rule
     : quote character_string_literal quote { result = SQLParser::Statement::String.new(val[1]) }
     | quote quote { result = SQLParser::Statement::String.new('') }
     | datetime_literal
+    | true_literal { result = SQLParser::Statement::True.new }
+    | false_literal { result = SQLParser::Statement::False.new }
 
   datetime_literal
     : date_literal
@@ -327,6 +329,7 @@ rule
   date_literal
     : DATE date_string { result = SQLParser::Statement::Date.new(val[1]) }
 
+   
 ---- header ----
 require File.dirname(__FILE__) + '/parser.rex.rb'
 

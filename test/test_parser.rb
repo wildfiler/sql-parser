@@ -405,6 +405,24 @@ class TestParser < Test::Unit::TestCase
   assert_understands "SELECT * FROM `TABLE` AS `a` WHERE ST_Point_Inside_Circle(`a`.`geom`, 3.4, 1.2, 3.5)"
   end
 
+  def test_true_literal
+    assert_understands "SELECT TRUE"
+  end
+
+  def test_false_literal
+    assert_understands "SELECT FALSE"
+  end
+
+  def test_true_literal_in_where
+    assert_understands "SELECT `contact_id` FROM `sends` WHERE `is_mobile` = TRUE"
+  end
+
+
+  def test_true_literal_in_where_flip
+    assert_understands "SELECT `contact_id` FROM `sends` WHERE TRUE = `is_mobile`"
+  end
+
+
 
 
   private

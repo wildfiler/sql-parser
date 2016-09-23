@@ -60,6 +60,12 @@ class SQLParser::Parser < Racc::Parser
       when (text = @ss.scan(/\'/i))
          action { self.state = :STRS;  [:quote, text] }
 
+      when (text = @ss.scan(/true/i))
+         action { [:true_literal, true] }
+
+      when (text = @ss.scan(/false/i))
+         action { [:false_literal, false] }
+
       when (text = @ss.scan(/\"/i))
          action { self.state = :STRD;  [:quote, text] }
 
