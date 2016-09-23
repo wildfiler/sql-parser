@@ -492,9 +492,15 @@ module SQLParser
     end
 
     class True < Node
+      def initialize()
+        @value = true
+      end
     end
 
     class False < Node
+      def initialize()
+        @value = false
+      end
     end
 
     class Null < Node

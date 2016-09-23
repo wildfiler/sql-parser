@@ -417,11 +417,17 @@ class TestParser < Test::Unit::TestCase
     assert_understands "SELECT `contact_id` FROM `sends` WHERE `is_mobile` = TRUE"
   end
 
-
   def test_true_literal_in_where_flip
     assert_understands "SELECT `contact_id` FROM `sends` WHERE TRUE = `is_mobile`"
   end
 
+  def test_true_literal_in_not_expression
+    assert_understands "SELECT 1 FROM `table` WHERE NOT TRUE"
+  end
+
+  def test_false_literal_in_not_expression
+    assert_understands "SELECT 1 FROM `table` WHERE NOT FALSE"
+  end
 
 
 

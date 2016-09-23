@@ -214,6 +214,7 @@ rule
   boolean_primary
     : predicate
     | left_paren search_condition right_paren { result = val[1] }
+    | boolean_literal 
 
   predicate
     : comparison_predicate
@@ -320,7 +321,10 @@ rule
     : quote character_string_literal quote { result = SQLParser::Statement::String.new(val[1]) }
     | quote quote { result = SQLParser::Statement::String.new('') }
     | datetime_literal
-    | true_literal { result = SQLParser::Statement::True.new }
+    | boolean_literal
+
+  boolean_literal
+    : true_literal { result = SQLParser::Statement::True.new }
     | false_literal { result = SQLParser::Statement::False.new }
 
   datetime_literal

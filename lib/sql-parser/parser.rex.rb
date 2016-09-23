@@ -216,6 +216,21 @@ class SQLParser::Parser < Racc::Parser
       when (text = @ss.scan(/OFFSET/i))
          action { [:OFFSET, text] }
 
+      when (text = @ss.scan(/CASE/i))
+         action { [:CASE, text] }
+
+      when (text = @ss.scan(/WHEN/i))
+         action { [:WHEN, text] }
+
+      when (text = @ss.scan(/THEN/i))
+         action { [:THEN, text] }
+
+      when (text = @ss.scan(/END/i))
+         action { [:END, text] }
+
+      when (text = @ss.scan(/ELSE/i))
+         action { [:ELSE, text] }
+
       when (text = @ss.scan(/<>/i))
          action { [:not_equals_operator, text] }
 

@@ -90,6 +90,11 @@ rule
             VALUES        { [:VALUES, text] }
             LIMIT         { [:LIMIT, text] }
             OFFSET        { [:OFFSET, text] }
+            CASE          { [:CASE, text] }
+            WHEN          { [:WHEN, text] }
+            THEN          { [:THEN, text] }
+            END           { [:END, text] }
+            ELSE          { [:ELSE, text] }
 
 # tokens
             <>            { [:not_equals_operator, text] }

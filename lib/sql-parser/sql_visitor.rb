@@ -282,11 +282,19 @@ module SQLParser
     end
 
     def visit_True(o)
-      'TRUE'
+      if @negated
+        'NOT TRUE'
+      else
+        'TRUE'
+      end
     end
 
     def visit_False(o)
-      'FALSE'
+      if @negated
+        'NOT FALSE'
+      else
+        'FALSE'
+      end
     end
 
     def visit_Null(o)
