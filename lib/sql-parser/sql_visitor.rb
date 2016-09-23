@@ -258,13 +258,20 @@ module SQLParser
     end
 
     def visit_CaseClause(o)
-      case_parts = o.branches.map { |wc| visit(wc) }
+      case_parts = []
+
+      if o.value
+        case_parts << visit(o.value)
+      end
+
+      case_parts.push(*o.branches.map { |wc| visit(wc) })
+
 
       if o.elsepart
         case_parts << "ELSE #{visit(o.elsepart)}"
       end
 
-      ["CASE", *case_parts, "END"].join(" ")
+      ["CASE", *case_parts, "END"].compact.join(" ")
     end
 
     def visit_WhenClause(o)

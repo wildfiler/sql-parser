@@ -445,6 +445,30 @@ class TestParser < Test::Unit::TestCase
     assert_understands "SELECT CASE WHEN `is_mobile` = 1 THEN 'good' WHEN `is_mobile` = 2 THEN 'better' WHEN `is_mobile` = 3 THEN 'even better' ELSE 'best' END FROM `table_name`"
   end
 
+  def test_case_inside_when
+    assert_understands "SELECT CASE WHEN `a` = 1 THEN CASE WHEN `b` = 1 THEN 1 ELSE 0 END ELSE 0 END FROM `t`"
+  end
+
+  def test_case_in_where_clause
+    assert_understands "SELECT 1 FROM `t` WHERE 1 = CASE WHEN `a` = 1 THEN CASE WHEN `b` = 1 THEN 1 ELSE 0 END ELSE 0 END"
+  end
+
+  def test_case_expression_alias
+    assert_understands "SELECT CASE WHEN `a` = 1 THEN CASE WHEN `b` = 1 THEN 1 ELSE 0 END ELSE 0 END AS `c` FROM `t`"
+  end
+
+  def test_case_when_switch_on_value_expression
+    assert_understands "SELECT CASE `a` WHEN 1 THEN 'one' END FROM `table`"
+  end
+
+  def test_case_when_switch_with_else
+    assert_understands "SELECT CASE `a` WHEN 1 THEN 'one' ELSE 'two' END FROM `table`"
+  end
+
+  def test_case_when_switch_multiple_values
+    assert_understands "SELECT CASE `a` WHEN 1 THEN 'one' WHEN 2 THEN 'two' ELSE 'zero' END FROM `table`"
+  end
+
   private
 
   def assert_sql(expected, given)

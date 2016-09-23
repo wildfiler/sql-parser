@@ -183,11 +183,13 @@ module SQLParser
     end
 
     class CaseClause < Node
-      def initialize(branches, elsepart)
+      def initialize(value, branches, elsepart)
         @branches = branches
         @elsepart = elsepart
+        @value = value
       end
 
+      attr_accessor :value
       attr_accessor :branches
       attr_accessor :elsepart
     end
