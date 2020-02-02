@@ -32,6 +32,7 @@ rule
   :STRS     {SQSTR}       {                 [:character_string_literal, text.gsub("''", "'")] }
             {TRUE}        { [:true_literal, true] }
             {FALSE}       { [:false_literal, false] }
+            \?            { [:variable, text] }
 
             \"            { self.state = :STRD;  [:quote, text] }
   :STRD     \"            { self.state = nil;    [:quote, text] }

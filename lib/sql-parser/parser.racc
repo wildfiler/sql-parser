@@ -336,6 +336,7 @@ rule
 # sql module
   column_name
     : identifier { result = SQLParser::Statement::Column.new(val[0]) }
+    | variable { result = SQLParser::Statement::Variable.new(val[0]) } # a lot of conflicts
 
 # literals
   general_literal
@@ -343,6 +344,7 @@ rule
     | quote quote { result = SQLParser::Statement::String.new('') }
     | datetime_literal
     | boolean_literal
+    | variable { result = SQLParser::Statement::Variable.new(val[0]) }
 
   boolean_literal
     : true_literal { result = SQLParser::Statement::True.new }
