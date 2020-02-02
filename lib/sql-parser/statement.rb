@@ -559,5 +559,12 @@ module SQLParser
     class Integer < Literal
     end
 
+    class Variable < Node
+      def initialize(value)
+        @value = value
+      end
+
+      attr_accessor :value
+    end
   end
 end

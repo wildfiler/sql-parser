@@ -358,6 +358,9 @@ module SQLParser
       "#{o.name}(#{arrayize(o.argument)})"
     end
 
+    def visit_Variable(o)
+      o.value.to_s
+    end
 
     private
 
