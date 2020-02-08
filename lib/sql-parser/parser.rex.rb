@@ -132,6 +132,12 @@ class SQLParser::Parser < Racc::Parser
                   when (text = @ss.scan(/INSERT/i))
                      action { [:INSERT, text] }
 
+                  when (text = @ss.scan(/UPDATE/i))
+                     action { [:UPDATE, text] }
+
+                  when (text = @ss.scan(/SET/i))
+                     action { [:SET, text] }
+
                   when (text = @ss.scan(/INTO/i))
                      action { [:INTO, text] }
 
@@ -285,8 +291,8 @@ class SQLParser::Parser < Racc::Parser
                   when (text = @ss.scan(/\w+/i))
                      action { [:identifier, text] }
 
-      when (text = @ss.scan(/----/i))
-        ;
+                  when (text = @ss.scan(/----/i))
+                    ;
 
                   when (text = @ss.scan(/require/i))
                     ;

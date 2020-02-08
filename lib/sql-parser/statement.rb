@@ -56,6 +56,28 @@ module SQLParser
 
     end
 
+    class Update < Node
+      def initialize(table, assign_list, where)
+        @table = table
+        @assign_list = assign_list.flatten
+        @where = where
+      end
+
+      attr_accessor :table
+      attr_accessor :assign_list
+      attr_accessor :where
+    end
+
+    class AssignColumn < Node
+      def initialize(column, value)
+        @column = column
+        @value = value
+      end
+
+      attr_accessor :column
+      attr_accessor :value
+    end
+
     class OrderBy < Node
 
       def initialize(sort_specification)

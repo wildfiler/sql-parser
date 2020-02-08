@@ -37,6 +37,18 @@ module SQLParser
       end
     end
 
+    def visit_Update(o)
+      assign = o.assign_list.map do |assign_column|
+        visit_AssignColumn(assign_column)
+      end.join(', ')
+
+      "UPDATE #{visit_Table(o.table)} SET #{assign} #{visit_WhereClause(o.where)}"
+    end
+
+    def visit_AssignColumn(o)
+      "#{visit_Column(o.column)} = #{visit(o.value)}"
+    end
+
     def visit_Subquery(o)
       "(#{visit(o.query_specification)})"
     end

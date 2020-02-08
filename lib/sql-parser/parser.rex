@@ -62,6 +62,8 @@ rule
             NOT           { [:NOT, text] }
             INNER         { [:INNER, text] }
             INSERT        { [:INSERT, text] }
+            UPDATE        { [:UPDATE, text] }
+            SET           { [:SET, text] }
             INTO          { [:INTO, text] }
             IN            { [:IN, text] }
             ORDER         { [:ORDER, text] }

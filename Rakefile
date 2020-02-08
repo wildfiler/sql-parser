@@ -15,8 +15,7 @@ file GENERATED_LEXER => 'lib/sql-parser/parser.rex' do |t|
 end
 
 file GENERATED_PARSER => 'lib/sql-parser/parser.racc' do |t|
-  verbose_opt = ENV['VERBOSE'] ? '-v' : ''
-  sh "racc -o #{t.name} #{verbose_opt} #{t.prerequisites.first}"
+  sh "racc -o #{t.name} #{t.prerequisites.first}"
 end
 
 task :parser => [GENERATED_LEXER, GENERATED_PARSER]

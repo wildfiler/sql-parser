@@ -9,6 +9,7 @@ rule
   direct_sql_data_statement
     : direct_select_statement_multiple_rows
     | insert_specification
+    | update_specification
 
   direct_select_statement_multiple_rows
     : query_expression order_by_clause fetch_only_clause { result = SQLParser::Statement::DirectSelect.new(val[0], val[1], val[2]) }
@@ -51,6 +52,16 @@ rule
   insert_specification
     : INSERT INTO table_reference value_list { result = SQLParser::Statement::Insert.new(val[2], nil, val[3]) }
     | INSERT INTO table_reference column_list value_list { result = SQLParser::Statement::Insert.new(val[2], val[3], val[4]) }
+
+  update_specification
+    : UPDATE table_reference SET assign_list where_clause { result = SQLParser::Statement::Update.new(val[1], val[3], val[4]) }
+
+  assign_list
+    : assign_column comma assign_list { result = Array(val[0]) + Array(val[2]) }
+    | assign_column                   { result = Array(val[0]) }
+
+  assign_column
+    : column_name equals_operator value { result = SQLParser::Statement::AssignColumn.new(val[0], val[2]) }
 
   column_list
     : left_paren in_column_list right_paren { result = SQLParser::Statement::InColumnList.new(val[1]) }
@@ -336,7 +347,6 @@ rule
 # sql module
   column_name
     : identifier { result = SQLParser::Statement::Column.new(val[0]) }
-    | variable { result = SQLParser::Statement::Variable.new(val[0]) } # a lot of conflicts
 
 # literals
   general_literal
