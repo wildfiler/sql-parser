@@ -1,7 +1,18 @@
-require File.dirname(__FILE__) + '/../lib/sql-parser'
+require_relative '../lib/sql-parser'
 require 'test/unit'
 
 class TestStatement < Test::Unit::TestCase
+  def test_update
+    assert_sql "UPDATE `users` SET `name` = 'Juan' WHERE `id` = 1",
+               SQLParser::Statement::Update.new(tbl('users'), [assigment('name', str('Juan'))], where(equals(col('id'), int(1))))
+  end
+
+  def test_update_subquery
+    subquery = SQLParser::Statement::Subquery.new(select(col('name'), tblx(from(tbl('city')))), nil)
+    assert_sql "UPDATE `users` SET `name` = (SELECT `name` FROM 'city') WHERE `id` = 1",
+               SQLParser::Statement::Update.new(tbl('users'), [assigment('name', subquery)], where(equals(col('id'), int(1))))
+  end
+
   def test_direct_select
     assert_sql 'SELECT * FROM `users` ORDER BY `name`', SQLParser::Statement::DirectSelect.new(select(all, tblx(from(tbl('users')))), SQLParser::Statement::OrderBy.new(col('name')))
   end
@@ -326,6 +337,10 @@ class TestStatement < Test::Unit::TestCase
 
   def where(search_condition)
     SQLParser::Statement::WhereClause.new(search_condition)
+  end
+
+  def assigment(column, value)
+    SQLParser::Statement::AssignColumn.new(col(column), value)
   end
 
   def group_by(columns)
