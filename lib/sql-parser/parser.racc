@@ -61,7 +61,7 @@ rule
     | assign_column                   { result = Array(val[0]) }
 
   assign_column
-    : column_name equals_operator value { result = SQLParser::Statement::AssignColumn.new(val[0], val[2]) }
+    : column_name equals_operator row_value_constructor { result = SQLParser::Statement::AssignColumn.new(val[0], val[2]) }
 
   column_list
     : left_paren in_column_list right_paren { result = SQLParser::Statement::InColumnList.new(val[1]) }
