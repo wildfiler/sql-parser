@@ -68,6 +68,16 @@ module SQLParser
       attr_accessor :where
     end
 
+    class Delete < Node
+      def initialize(table, where)
+        @table = table
+        @where = where
+      end
+
+      attr_accessor :table
+      attr_accessor :where
+    end
+
     class AssignColumn < Node
       def initialize(column, value)
         @column = column

@@ -20,6 +20,13 @@ class TestStatement < Test::Unit::TestCase
                  where(equals(col('id'), int(1))))
   end
 
+  def test_delete_variables
+    assert_sql "DELETE FROM `users` WHERE `id` = ?",
+               SQLParser::Statement::Delete.new(
+                 tbl('users'),
+                 where(equals(col('id'), var)))
+  end
+
   def test_update_subquery
     subquery = SQLParser::Statement::Subquery.new(select(col('name'), tblx(from(tbl('city')))))
     assert_sql "UPDATE `users` SET `name` = (SELECT `name` FROM `city`) WHERE `id` = 1",

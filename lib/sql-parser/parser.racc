@@ -10,6 +10,7 @@ rule
     : direct_select_statement_multiple_rows
     | insert_specification
     | update_specification
+    | delete_specification
 
   direct_select_statement_multiple_rows
     : query_expression order_by_clause fetch_only_clause { result = SQLParser::Statement::DirectSelect.new(val[0], val[1], val[2]) }
@@ -55,6 +56,9 @@ rule
 
   update_specification
     : UPDATE table_reference SET assign_list where_clause { result = SQLParser::Statement::Update.new(val[1], val[3], val[4]) }
+
+  delete_specification
+    : DELETE FROM table_reference where_clause { result = SQLParser::Statement::Delete.new(val[2], val[3]) }
 
   assign_list
     : assign_column comma assign_list { result = Array(val[0]) + Array(val[2]) }

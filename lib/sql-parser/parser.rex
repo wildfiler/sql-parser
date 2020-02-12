@@ -63,6 +63,7 @@ rule
             INNER         { [:INNER, text] }
             INSERT        { [:INSERT, text] }
             UPDATE        { [:UPDATE, text] }
+            DELETE        { [:DELETE, text] }
             SET           { [:SET, text] }
             INTO          { [:INTO, text] }
             IN            { [:IN, text] }

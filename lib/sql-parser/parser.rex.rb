@@ -135,6 +135,9 @@ class SQLParser::Parser < Racc::Parser
                   when (text = @ss.scan(/UPDATE/i))
                      action { [:UPDATE, text] }
 
+                  when (text = @ss.scan(/DELETE/i))
+                     action { [:DELETE, text] }
+
                   when (text = @ss.scan(/SET/i))
                      action { [:SET, text] }
 

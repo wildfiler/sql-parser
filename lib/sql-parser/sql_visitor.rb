@@ -45,6 +45,10 @@ module SQLParser
       "UPDATE #{visit_Table(o.table)} SET #{assign} #{visit_WhereClause(o.where)}"
     end
 
+    def visit_Delete(o)
+      "DELETE FROM #{visit_Table(o.table)} #{visit_WhereClause(o.where)}"
+    end
+
     def visit_AssignColumn(o)
       "#{visit_Column(o.column)} = #{visit(o.value)}"
     end

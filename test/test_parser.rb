@@ -28,6 +28,11 @@ class TestParser < Test::Unit::TestCase
     assert_understands "UPDATE `users` SET `name` = ?, `email` = ? WHERE `id` = ?"
   end
 
+  def test_delete
+    assert_understands "DELETE FROM `users` WHERE `id` = 1"
+    assert_understands "DELETE FROM `users` WHERE `name` = (SELECT `name` FROM `city`)"
+  end
+
   def test_case_insensitivity
     assert_sql 'SELECT * FROM `users` WHERE `id` = 1', 'select * from users where id = 1'
   end
