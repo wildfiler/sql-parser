@@ -12,6 +12,14 @@ class TestStatement < Test::Unit::TestCase
                SQLParser::Statement::Update.new(tbl('users'), [assigment('name', var)], where(equals(col('id'), int(1))))
   end
 
+  def test_update_variables
+    assert_sql "UPDATE `users` SET `name` = ?, `email` = ? WHERE `id` = 1",
+               SQLParser::Statement::Update.new(
+                 tbl('users'),
+                 [assigment('name', var), assigment('email', var)],
+                 where(equals(col('id'), int(1))))
+  end
+
   def test_update_subquery
     subquery = SQLParser::Statement::Subquery.new(select(col('name'), tblx(from(tbl('city')))))
     assert_sql "UPDATE `users` SET `name` = (SELECT `name` FROM `city`) WHERE `id` = 1",

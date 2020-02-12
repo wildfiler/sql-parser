@@ -20,7 +20,12 @@ class TestParser < Test::Unit::TestCase
     q =  'INSERT INTO "users" ("active", "created_on", "email", "last_login", "password", "salt", "username") VALUES ("a", "b", "c", "c", "e")'
     q.gsub!(/([^\\])"/) { $1 + '`' }
     assert_understands q
+  end
 
+  def test_update
+    assert_understands "UPDATE `users` SET `name` = 'Juan' WHERE `id` = 1"
+    assert_understands "UPDATE `users` SET `name` = (SELECT `name` FROM `city`) WHERE `id` = 1"
+    assert_understands "UPDATE `users` SET `name` = ?, `email` = ? WHERE `id` = ?"
   end
 
   def test_case_insensitivity
