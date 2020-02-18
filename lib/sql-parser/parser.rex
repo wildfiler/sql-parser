@@ -15,6 +15,7 @@ macro
   DAYS    {UINT}
 
   IDENT   \w+
+  SYMBOL  :\w+
 
   SQSTR   ([^']|'')*
   DQSTR   ([^"]|"")*
@@ -33,7 +34,7 @@ rule
             {TRUE}        { [:true_literal, true] }
             {FALSE}       { [:false_literal, false] }
             \?            { [:variable, text] }
-
+            {SYMBOL}      { [:variable, text] }
             \"            { self.state = :STRD;  [:quote, text] }
   :STRD     \"            { self.state = nil;    [:quote, text] }
   :STRD     {DQSTR}       {                 [:character_string_literal, text.gsub('""', '"')] }

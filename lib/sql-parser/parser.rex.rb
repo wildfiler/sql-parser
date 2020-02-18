@@ -69,6 +69,9 @@ class SQLParser::Parser < Racc::Parser
                   when (text = @ss.scan(/\?/i))
                      action { [:variable, text] }
 
+                  when (text = @ss.scan(/:\w+/i))
+                     action { [:variable, text] }
+
                   when (text = @ss.scan(/\"/i))
                      action { self.state = :STRD;  [:quote, text] }
 
