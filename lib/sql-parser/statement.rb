@@ -66,6 +66,10 @@ module SQLParser
       attr_accessor :table
       attr_accessor :assign_list
       attr_accessor :where
+
+      def generate_assigns
+        assign_list.map(&:to_sql).join(', ')
+      end
     end
 
     class Delete < Node
@@ -96,6 +100,9 @@ module SQLParser
 
       attr_accessor :sort_specification
 
+      def data
+        to_sql[8..-1].strip
+      end
     end
 
     class FetchOnly < Node
@@ -176,6 +183,9 @@ module SQLParser
 
       attr_accessor :tables
 
+      def data
+        to_sql[4..-1].strip
+      end
     end
 
     class OrderClause < Node
@@ -212,6 +222,9 @@ module SQLParser
 
       attr_accessor :search_condition
 
+      def data
+        to_sql[6..-1].strip
+      end
     end
 
     class CaseClause < Node
@@ -244,6 +257,9 @@ module SQLParser
 
       attr_accessor :columns
 
+      def data
+        to_sql[8..-1].strip
+      end
     end
 
     class WhereClause < Node
@@ -254,6 +270,9 @@ module SQLParser
 
       attr_accessor :search_condition
 
+      def data
+        to_sql[5..-1].strip
+      end
     end
 
     class On < Node
