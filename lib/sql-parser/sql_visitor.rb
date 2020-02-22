@@ -146,8 +146,8 @@ module SQLParser
     end
 
     def visit_Like(o)
-      variable_name = /:\w+/.match(o.right.value)[0]
-      o.right.value = variable_name if variable_name
+      variable_name = /:\w+/.match(o.right.value)
+      o.right.value = variable_name[0] if variable_name
 
       if @negated
         comparison('NOT LIKE', o)
