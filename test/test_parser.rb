@@ -34,9 +34,10 @@ class TestParser < Test::Unit::TestCase
   end
 
   def test_named_var
-    assert_understands "UPDATE `users` SET `name` = 'Juan' WHERE `id` = :id"
-    assert_understands "SELECT * FROM `users` WHERE (`id` = :id AND `name` = :name)"
-    assert_understands "SELECT * FROM `users` WHERE `market_id` = :market_id"
+    assert_understands "UPDATE `users` SET `name` = 'Juan' WHERE `id` = ?"
+    assert_understands "SELECT * FROM `users` WHERE (`id` = ? AND `name` = ?)"
+    assert_understands "SELECT * FROM `users` WHERE `market_id` = ?"
+    assert_understands "SELECT * FROM `users` WHERE `market_id` LIKE ?"
   end
 
   def test_case_insensitivity
@@ -184,11 +185,6 @@ class TestParser < Test::Unit::TestCase
     assert_understands 'SELECT * FROM `users` WHERE `id` NOT IN (SELECT `id` FROM `users` WHERE `age` = 18)'
   end
 
-  def test_in
-    assert_understands 'SELECT * FROM `users` WHERE `id` IN (1, 2, 3)'
-    assert_understands 'SELECT * FROM `users` WHERE `id` IN (SELECT `id` FROM `users` WHERE `age` = 18)'
-  end
-
   def test_not_between
     assert_understands 'SELECT * FROM `users` WHERE `id` NOT BETWEEN 1 AND 3'
   end
@@ -250,6 +246,8 @@ class TestParser < Test::Unit::TestCase
   def test_in
     assert_understands 'SELECT `name` FROM `users` WHERE `id` IN (1)'
     assert_understands 'SELECT `name` FROM `users` WHERE `id` IN (1, 2)'
+    assert_understands 'SELECT * FROM `users` WHERE `id` IN (1, 2, 3)'
+    assert_understands 'SELECT * FROM `users` WHERE `id` IN (SELECT `id` FROM `users` WHERE `age` = 18)'
   end
 
   def test_from_clause
