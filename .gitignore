@@ -3,3 +3,6 @@ pkg
 *.lock
 .idea
 .project
+/.bundle
+/vendor/bundle/
+/vendor/ruby/
