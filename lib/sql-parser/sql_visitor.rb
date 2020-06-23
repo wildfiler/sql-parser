@@ -73,7 +73,9 @@ module SQLParser
     end
 
     def visit_All(o)
-      '*'
+      return '*' if o.value.nil?
+
+      "#{visit(o.value)}.*"
     end
 
     def visit_TableExpression(o)

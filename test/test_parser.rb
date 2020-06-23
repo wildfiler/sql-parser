@@ -40,6 +40,11 @@ class TestParser < Test::Unit::TestCase
     assert_understands "SELECT * FROM `users` WHERE `market_id` LIKE ?"
   end
 
+  def test_asterisk
+    assert_understands "SELECT `users`.* FROM `users`"
+    assert_understands "SELECT `users`.*, `addresses`.* FROM `users`"
+  end
+
   def test_case_insensitivity
     assert_sql 'SELECT * FROM `users` WHERE `id` = 1', 'select * from users where id = 1'
   end
