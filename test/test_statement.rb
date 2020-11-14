@@ -145,6 +145,14 @@ class TestStatement < Test::Unit::TestCase
     assert_sql '1 IS NULL', SQLParser::Statement::Is.new(int(1), SQLParser::Statement::Null.new)
   end
 
+  def test_equals_null
+    assert_sql '`a` = NULL', SQLParser::Statement::Equals.new(col('a'), SQLParser::Statement::Null.new)
+  end
+
+  def test_not_equals_null
+    assert_sql '`a` <> NULL', SQLParser::Statement::Not.new(equals(col('a'), SQLParser::Statement::Null.new))
+  end
+
   def test_not_like
     assert_sql "'hello' NOT LIKE 'h%'", SQLParser::Statement::Not.new(SQLParser::Statement::Like.new(str('hello'), str('h%')))
   end
