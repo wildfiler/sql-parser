@@ -284,6 +284,7 @@ rule
     | term minus_sign value_expression { result = SQLParser::Statement::Subtract.new(val[0], val[2]) }
     | term
     | case_expression
+    | NULL { result = SQLParser::Statement::Null.new }
 
   term
     : factor asterisk term { result = SQLParser::Statement::Multiply.new(val[0], val[2]) }
@@ -331,7 +332,8 @@ rule
 
 # arbitrary function calls
   general_function
-    : identifier left_paren argument_list right_paren { result = SQLParser::Statement::FunctionCall.new(val[0], val[2]) }
+    : identifier left_paren right_paren { result = SQLParser::Statement::FunctionCall.new(val[0], nil) }
+    | identifier left_paren argument_list right_paren { result = SQLParser::Statement::FunctionCall.new(val[0], val[2]) }
 
   boolean_function
     : identifier left_paren argument_list right_paren { result = SQLParser::Statement::BooleanFunction.new(val[0], val[2]) }
