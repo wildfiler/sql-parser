@@ -329,6 +329,7 @@ rule
     | MAX left_paren value_expression right_paren { result = SQLParser::Statement::Maximum.new(val[2]) }
     | MIN left_paren value_expression right_paren { result = SQLParser::Statement::Minimum.new(val[2]) }
     | SUM left_paren value_expression right_paren { result = SQLParser::Statement::Sum.new(val[2]) }
+    | IFNULL left_paren argument_list right_paren { result = SQLParser::Statement::FunctionCall.new(val[0], val[2]) }
 
 # arbitrary function calls
   general_function

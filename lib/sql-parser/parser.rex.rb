@@ -180,6 +180,9 @@ class SQLParser::Parser < Racc::Parser
                   when (text = @ss.scan(/SUM/i))
                      action { [:SUM, text] }
 
+                  when (text = @ss.scan(/IFNULL/i))
+                     action { [:IFNULL, text] }
+
                   when (text = @ss.scan(/GROUP/i))
                      action { [:GROUP, text] }
 

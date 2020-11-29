@@ -241,6 +241,10 @@ class TestParser < Test::Unit::TestCase
     assert_understands 'SELECT MAX(`age`) FROM `users`'
   end
 
+  def test_ifnull
+    assert_understands 'SELECT IFNULL(`age`, 0) FROM `users`'
+  end
+
   def test_avg
     assert_understands 'SELECT AVG(`age`) FROM `users`'
   end
