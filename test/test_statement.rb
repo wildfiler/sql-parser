@@ -221,6 +221,10 @@ class TestStatement < Test::Unit::TestCase
     assert_sql 'COUNT(*)', SQLParser::Statement::Count.new(all)
   end
 
+  def test_ifnull
+    assert_sql 'IFNULL(`age`, 18)', SQLParser::Statement::FunctionCall.new('IFNULL', [col('age'), int(18)])
+  end
+
   def test_table
     assert_sql '`users`', tbl('users')
   end

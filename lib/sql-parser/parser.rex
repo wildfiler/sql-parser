@@ -78,6 +78,7 @@ rule
             MAX           { [:MAX, text] }
             MIN           { [:MIN, text] }
             SUM           { [:SUM, text] }
+            IFNULL        { [:IFNULL, text] }
             GROUP         { [:GROUP, text] }
             BY            { [:BY, text] }
             HAVING        { [:HAVING, text] }
