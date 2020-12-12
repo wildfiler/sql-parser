@@ -156,6 +156,9 @@ class SQLParser::Parser < Racc::Parser
                   when (text = @ss.scan(/OR/i))
                      action { [:OR, text] }
 
+                  when (text = @ss.scan(/XOR/i))
+                     action { [:XOR, text] }
+
                   when (text = @ss.scan(/LIKE/i))
                      action { [:LIKE, text] }
 

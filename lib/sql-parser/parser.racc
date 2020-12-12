@@ -217,6 +217,7 @@ rule
   boolean_term
     : boolean_factor
     | boolean_term AND boolean_factor { result = SQLParser::Statement::And.new(val[0], val[2]) }
+    | boolean_term XOR boolean_factor { result = SQLParser::Statement::Xor.new(val[0], val[2]) }
 
   boolean_factor:
     : NOT boolean_test { result = SQLParser::Statement::Not.new(val[1]) }

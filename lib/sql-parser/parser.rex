@@ -70,6 +70,7 @@ rule
             IN            { [:IN, text] }
             ORDER         { [:ORDER, text] }
             OR            { [:OR, text] }
+            XOR           { [:XOR, text] }
             LIKE          { [:LIKE, text] }
             IS            { [:IS, text] }
             NULL          { [:NULL, text] }
