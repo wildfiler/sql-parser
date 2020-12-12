@@ -315,6 +315,9 @@ module SQLParser
     class Or < SearchCondition
     end
 
+    class Xor < SearchCondition
+    end
+
     class And < SearchCondition
     end
 

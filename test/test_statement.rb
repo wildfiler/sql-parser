@@ -133,6 +133,10 @@ class TestStatement < Test::Unit::TestCase
     assert_sql '(FALSE OR FALSE)', SQLParser::Statement::Or.new(SQLParser::Statement::False.new, SQLParser::Statement::False.new)
   end
 
+  def test_xor
+    assert_sql '(FALSE XOR FALSE)', SQLParser::Statement::Xor.new(SQLParser::Statement::False.new, SQLParser::Statement::False.new)
+  end
+
   def test_and
     assert_sql '(TRUE AND TRUE)', SQLParser::Statement::And.new(SQLParser::Statement::True.new, SQLParser::Statement::True.new)
   end

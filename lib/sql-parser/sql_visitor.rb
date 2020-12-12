@@ -127,6 +127,10 @@ module SQLParser
       search_condition('OR', o)
     end
 
+    def visit_Xor(o)
+      search_condition('XOR', o)
+    end
+
     def visit_And(o)
       search_condition('AND', o)
     end
