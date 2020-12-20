@@ -576,12 +576,16 @@ module SQLParser
       def initialize()
         @value = true
       end
+
+      attr_accessor :value
     end
 
     class False < Node
       def initialize()
         @value = false
       end
+
+      attr_accessor :value
     end
 
     class Null < Node
