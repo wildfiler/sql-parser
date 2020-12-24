@@ -294,6 +294,10 @@ class TestParser < Test::Unit::TestCase
     assert_sql 'SELECT (1 + ((2 * 3) - (4 / 5)))', 'SELECT 1 + 2 * 3 - 4 / 5'
   end
 
+  def test_limit
+    assert_sql 'SELECT * FROM `users` LIMIT 2', 'SELECT * FROM users LIMIT 2'
+  end
+
   def test_numeric_value_expression
     assert_understands 'SELECT (1 * 2)'
     assert_understands 'SELECT (1 / 2)'

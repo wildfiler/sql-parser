@@ -78,7 +78,7 @@ rule
     : VALUES left_paren in_value_list right_paren { result = SQLParser::Statement::InValueList.new(val[2]) }
 
   query_specification
-    : SELECT distinct_select_list table_expression { result = SQLParser::Statement::Select.new(val[1], val[2]) }
+    : SELECT distinct_select_list table_expression limit_clause { result = SQLParser::Statement::Select.new(val[1], val[2], val[3]) }
     | SELECT distinct_select_list { result = SQLParser::Statement::Select.new(val[1]) }
 
   select_list
@@ -154,6 +154,10 @@ rule
   group_by_clause
     : # no action
     | GROUP BY grouping_column_reference_list { result = SQLParser::Statement::GroupByClause.new(val[2]) }
+
+  limit_clause
+    : # no action
+    | LIMIT unsigned_integer { result = SQLParser::Statement::LimitClause.new(val[1]) }
 
   grouping_column_reference_list
     : grouping_column_reference_list comma grouping_column_reference { result = Array(val[0]) + Array(val[2]) }
