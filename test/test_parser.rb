@@ -55,6 +55,7 @@ class TestParser < Test::Unit::TestCase
 
   def test_subquery_in_where_clause
     assert_understands 'SELECT * FROM `t1` WHERE `id` > (SELECT SUM(`a`) FROM `t2`)'
+    assert_understands 'SELECT * FROM `t1` WHERE `id` > (SELECT SUM(`a`) FROM `t2` ORDER BY `id` ASC LIMIT 1)'
   end
 
   def test_order_by_constant

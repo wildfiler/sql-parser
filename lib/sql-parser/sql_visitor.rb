@@ -18,11 +18,7 @@ module SQLParser
     end
 
     def visit_DirectSelect(o)
-      [
-          o.query_expression,
-          o.order_by,
-          o.fetch_only
-      ].compact.collect { |e| visit(e) }.join(' ')
+      [o.query_expression, o.fetch_only].compact.collect { |e| visit(e) }.join(' ')
     end
 
     def visit_OrderBy(o)
@@ -61,7 +57,7 @@ module SQLParser
       # FIXME: This feels like a hack
       initialize
 
-      "SELECT #{visit_all([o.list, o.table_expression, o.limit_clause].compact).join(' ')}"
+      "SELECT #{visit_all([o.list, o.table_expression, o.order_by, o.limit_clause].compact).join(' ')}"
     end
 
     def visit_SelectList(o)

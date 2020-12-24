@@ -13,7 +13,7 @@ rule
     | delete_specification
 
   direct_select_statement_multiple_rows
-    : query_expression order_by_clause fetch_only_clause { result = SQLParser::Statement::DirectSelect.new(val[0], val[1], val[2]) }
+    : query_expression fetch_only_clause { result = SQLParser::Statement::DirectSelect.new(val[0], val[1]) }
 
 # module contents
   order_by_clause
@@ -78,7 +78,7 @@ rule
     : VALUES left_paren in_value_list right_paren { result = SQLParser::Statement::InValueList.new(val[2]) }
 
   query_specification
-    : SELECT distinct_select_list table_expression limit_clause { result = SQLParser::Statement::Select.new(val[1], val[2], val[3]) }
+    : SELECT distinct_select_list table_expression order_by_clause limit_clause { result = SQLParser::Statement::Select.new(val[1], val[2], val[3], val[4]) }
     | SELECT distinct_select_list { result = SQLParser::Statement::Select.new(val[1]) }
 
   select_list
