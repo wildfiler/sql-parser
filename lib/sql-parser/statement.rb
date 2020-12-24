@@ -44,14 +44,12 @@ module SQLParser
 
     class DirectSelect < Node
 
-      def initialize(query_expression, order_by, fetch_only = nil)
+      def initialize(query_expression, fetch_only = nil)
         @query_expression = query_expression
-        @order_by = order_by
         @fetch_only = fetch_only
       end
 
       attr_accessor :query_expression
-      attr_accessor :order_by
       attr_accessor :fetch_only
 
     end
@@ -128,16 +126,17 @@ module SQLParser
     end
 
     class Select < Node
-      def initialize(list, table_expression = nil, limit_clause = nil)
+      def initialize(list, table_expression = nil, order_by = nil, limit_clause = nil)
         @list = list
         @table_expression = table_expression
         @limit_clause = limit_clause
+        @order_by = order_by
       end
 
       attr_accessor :list
       attr_accessor :table_expression
       attr_accessor :limit_clause
-
+      attr_accessor :order_by
     end
 
     class SelectList < Node

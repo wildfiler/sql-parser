@@ -54,6 +54,15 @@ class TestStatement < Test::Unit::TestCase
 
   def test_subquery
     assert_sql '(SELECT 1)', SQLParser::Statement::Subquery.new(select(int(1)))
+    assert_sql '(SELECT `id` FROM `users` ORDER BY `id` LIMIT 1)',
+               SQLParser::Statement::Subquery.new(
+                 SQLParser::Statement::Select.new(
+                   col('id'),
+                   tblx(from(tbl('users'))),
+                   SQLParser::Statement::OrderClause.new(col('id')),
+                   SQLParser::Statement::LimitClause.new(1)
+                 )
+               )
   end
 
   def test_select
