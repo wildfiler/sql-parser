@@ -128,13 +128,15 @@ module SQLParser
     end
 
     class Select < Node
-      def initialize(list, table_expression = nil)
+      def initialize(list, table_expression = nil, limit_clause = nil)
         @list = list
         @table_expression = table_expression
+        @limit_clause = limit_clause
       end
 
       attr_accessor :list
       attr_accessor :table_expression
+      attr_accessor :limit_clause
 
     end
 
@@ -230,6 +232,14 @@ module SQLParser
       def data
         to_sql[6..-1].strip
       end
+    end
+
+    class LimitClause < Node
+      def initialize(number)
+        @number = number
+      end
+
+      attr_accessor :number
     end
 
     class CaseClause < Node

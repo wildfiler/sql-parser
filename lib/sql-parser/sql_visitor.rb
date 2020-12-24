@@ -61,7 +61,7 @@ module SQLParser
       # FIXME: This feels like a hack
       initialize
 
-      "SELECT #{visit_all([o.list, o.table_expression].compact).join(' ')}"
+      "SELECT #{visit_all([o.list, o.table_expression, o.limit_clause].compact).join(' ')}"
     end
 
     def visit_SelectList(o)
@@ -93,6 +93,10 @@ module SQLParser
 
     def visit_OrderClause(o)
       "ORDER BY #{arrayize(o.columns)}"
+    end
+
+    def visit_LimitClause(o)
+      "LIMIT #{o.number}"
     end
 
     def visit_Ascending(o)
