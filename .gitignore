@@ -2,7 +2,9 @@
 pkg
 *.lock
 .idea
+/.idea/*
 .project
 /.bundle
 /vendor/bundle/
 /vendor/ruby/
+/vendor/cache/
