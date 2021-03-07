@@ -397,6 +397,8 @@ module SQLParser
     end
 
     def quote(str)
+      return str if str.start_with?('`')
+
       "`#{str}`"
     end
 
