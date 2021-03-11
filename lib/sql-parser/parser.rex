@@ -14,7 +14,14 @@ macro
   MONTHS  {UINT}
   DAYS    {UINT}
 
-  IDENT   \w+
+  # Ugly workaround
+  # Rexical matches by position not by the longest match.
+  # This makes that any identifier that starts with a reserved word
+  # (for instance: endpoint has "end") makes a parser error
+  # As a workaround, we define IDENT as any word EXCEPT the reserved words and
+  # give priority to IDENT before the reserved words
+  # This does not work with current_user because the '_', but I can life without current_user
+  IDENT   \b(?!(?:SELECT|DISTINCT|ASC|AS|FROM|WHERE|OFFSET|ROWS|FETCH|FIRST|NEXT|ONLY|BETWEEN|AND|NOT|INNER|INSERT|UPDATE|DELETE|SET|INTO|IN|ORDER|OR|XOR|LIKE|IS|NULL|COUNT|AVG|MAX|MIN|SUM|IFNULL|GROUP|BY|HAVING|CROSS|JOIN|ON|LEFT|OUTER|RIGHT|FULL|USING|EXISTS|DESC|CURRENT_USER|VALUES|LIMIT|OFFSET|CASE|WHEN|THEN|END|ELSE)\b)\w+
   SYMBOL  :\w+
 
   SQSTR   ([^']|'')*
@@ -44,6 +51,10 @@ rule
 
 # skip
             {BLANK}       # no action
+
+# identifier
+            `{IDENT}`     { [:identifier, text[1..-2]] }
+            {IDENT}       { [:identifier, text] }
 
 # keywords
             SELECT        { [:SELECT, text] }
@@ -121,9 +132,6 @@ rule
             \.            { [:period, text] }
             ,             { [:comma, text] }
 
-# identifier
-            `{IDENT}`     { [:identifier, text[1..-2]] }
-            {IDENT}       { [:identifier, text] }
 
 ---- header ----
 require 'date'
