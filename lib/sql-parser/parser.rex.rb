@@ -84,6 +84,12 @@ class SQLParser::Parser < Racc::Parser
                   when (text = @ss.scan(/\s+/i))
                     ;
 
+                  when (text = @ss.scan(/`\b(?!(?:SELECT|DISTINCT|ASC|AS|FROM|WHERE|OFFSET|ROWS|FETCH|FIRST|NEXT|ONLY|BETWEEN|AND|NOT|INNER|INSERT|UPDATE|DELETE|SET|INTO|IN|ORDER|OR|XOR|LIKE|IS|NULL|COUNT|AVG|MAX|MIN|SUM|IFNULL|GROUP|BY|HAVING|CROSS|JOIN|ON|LEFT|OUTER|RIGHT|FULL|USING|EXISTS|DESC|CURRENT_USER|VALUES|LIMIT|OFFSET|CASE|WHEN|THEN|END|ELSE)\b)\w+`/i))
+                     action { [:identifier, text[1..-2]] }
+
+                  when (text = @ss.scan(/\b(?!(?:SELECT|DISTINCT|ASC|AS|FROM|WHERE|OFFSET|ROWS|FETCH|FIRST|NEXT|ONLY|BETWEEN|AND|NOT|INNER|INSERT|UPDATE|DELETE|SET|INTO|IN|ORDER|OR|XOR|LIKE|IS|NULL|COUNT|AVG|MAX|MIN|SUM|IFNULL|GROUP|BY|HAVING|CROSS|JOIN|ON|LEFT|OUTER|RIGHT|FULL|USING|EXISTS|DESC|CURRENT_USER|VALUES|LIMIT|OFFSET|CASE|WHEN|THEN|END|ELSE)\b)\w+/i))
+                     action { [:identifier, text] }
+
                   when (text = @ss.scan(/SELECT/i))
                      action { [:SELECT, text] }
 
@@ -296,12 +302,6 @@ class SQLParser::Parser < Racc::Parser
 
                   when (text = @ss.scan(/,/i))
                      action { [:comma, text] }
-
-                  when (text = @ss.scan(/`\w+`/i))
-                     action { [:identifier, text[1..-2]] }
-
-                  when (text = @ss.scan(/\w+/i))
-                     action { [:identifier, text] }
 
                   when (text = @ss.scan(/----/i))
                     ;
