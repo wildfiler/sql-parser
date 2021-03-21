@@ -24,9 +24,6 @@ macro
   IDENT   \b(?!(?:SELECT|DISTINCT|ASC|AS|FROM|WHERE|OFFSET|ROWS|FETCH|FIRST|NEXT|ONLY|BETWEEN|AND|NOT|INNER|INSERT|UPDATE|DELETE|SET|INTO|IN|ORDER|OR|XOR|LIKE|IS|NULL|COUNT|AVG|MAX|MIN|SUM|IFNULL|GROUP|BY|HAVING|CROSS|JOIN|ON|LEFT|OUTER|RIGHT|FULL|USING|EXISTS|DESC|CURRENT_USER|VALUES|LIMIT|OFFSET|CASE|WHEN|THEN|END|ELSE)\b)\w+
   SYMBOL  :\w+
 
-  SQSTR   ([^']|'')*
-  DQSTR   ([^"]|"")*
-
   TRUE   true
   FALSE  false
 
@@ -35,16 +32,18 @@ rule
 
 # literals
 
-            \'            { self.state = :STRS;  [:quote, text] }
-  :STRS     \'            { self.state = nil;    [:quote, text] }
-  :STRS     {SQSTR}       {                 [:character_string_literal, text.gsub("''", "'")] }
+            \'              { self.state = :STRS;  [:quote, text] }
+  :STRS     \'(?=[^\']|$)   { self.state = nil;    [:quote, text] }
+  :STRS     (?:[^\']|\'\')* { [:character_string_literal, text.gsub("''", "'")] }
+
             {TRUE}        { [:true_literal, true] }
             {FALSE}       { [:false_literal, false] }
             \?            { [:variable, text] }
             {SYMBOL}      { [:variable, text] }
-            \"            { self.state = :STRD;  [:quote, text] }
-  :STRD     \"            { self.state = nil;    [:quote, text] }
-  :STRD     {DQSTR}       {                 [:character_string_literal, text.gsub('""', '"')] }
+
+            \"              { self.state = :STRD;  [:quote, text] }
+  :STRD     \"(?=[^\"]|$)   { self.state = nil;    [:quote, text] }
+  :STRD     (?:[^\"]|\"\")* { [:character_string_literal, text.gsub('""', '"')] }
 
             {UFLOAT}      { [:unsigned_float, text.to_f] }
             {UINT}        { [:unsigned_integer, text.to_i] }

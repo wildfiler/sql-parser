@@ -349,9 +349,13 @@ class TestParser < Test::Unit::TestCase
     assert_sql "SELECT 'abc', '123'", "SELECT 'abc', '123'"
     assert_sql "SELECT 'abc', '123'", 'SELECT "abc", "123"'
 
-    # # FIXME
-    # assert_sql %{SELECT '"'}, %{SELECT """"}
-    # assert_understands %{SELECT ''''}
+    assert_sql(
+      %{SELECT `a` FROM `b` WHERE (`a`.`c` LIKE '%1%' AND `a`.`d` LIKE '%2%')},
+      %{SELECT `a` FROM `b` WHERE `a`.`c` LIKE '%1%' AND `a`.`d` LIKE '%2%'}
+    )
+    assert_sql %{SELECT '"'}, %{SELECT """"}
+    assert_understands %{SELECT ''''}
+    assert_understands %{SELECT `a` FROM `b` WHERE (`a`.`c` LIKE '%1%' AND `a`.`d` LIKE '%2%')}
   end
 
   def test_string
