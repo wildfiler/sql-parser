@@ -62,6 +62,7 @@ class TestParser < Test::Unit::TestCase
     assert_understands "SELECT * FROM `users` WHERE (`id` = ? AND `name` = ?)"
     assert_understands "SELECT * FROM `users` WHERE `market_id` = ?"
     assert_understands "SELECT * FROM `users` WHERE `market_id` LIKE ?"
+    assert_understands "SELECT * FROM `users` WHERE `market_id` IN ?"
   end
 
   def test_asterisk
