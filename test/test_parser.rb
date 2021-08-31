@@ -1,5 +1,6 @@
 require_relative 'helper'
 require 'test/unit'
+require 'pry'
 
 class TestParser < Test::Unit::TestCase
   def test_current_user
@@ -349,6 +350,7 @@ class TestParser < Test::Unit::TestCase
     assert_sql %{SELECT 'Some''s'}, %{SELECT 'Some\\'s'}
     assert_sql %{SELECT 'Some"s'}, %{SELECT "Some\\"s"}
     assert_understands %{SELECT 'Quote ''this!'''}
+    assert_understands %|SELECT '{\\"title\\":\\"test\\"}'|
 
     assert_sql "SELECT 'abc', '123'", "SELECT 'abc', '123'"
     assert_sql "SELECT 'abc', '123'", 'SELECT "abc", "123"'

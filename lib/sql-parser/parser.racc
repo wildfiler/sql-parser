@@ -371,12 +371,15 @@ rule
 
 # literals
   general_literal
-    : quote character_string_literal quote { result = SQLParser::Statement::String.new(val[1]) }
-    | quote quote { result = SQLParser::Statement::String.new('') }
+    : quote quote { result = SQLParser::Statement::String.new('') }
+    | string_literal
     | datetime_literal
     | boolean_literal
     | variable { result = SQLParser::Statement::Variable.new(val[0]) }
 
+  string_literal
+    : string_literal string_literal { result = SQLParser::Statement::String.new(val[0].value + val[1].value) }
+    | quote character_string_literal quote { result = SQLParser::Statement::String.new(val[1]) }
   boolean_literal
     : true_literal { result = SQLParser::Statement::True.new }
     | false_literal { result = SQLParser::Statement::False.new }

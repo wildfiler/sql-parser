@@ -5,6 +5,7 @@
 #++
 
 require 'racc/parser'
+require 'date'
 class SQLParser::Parser < Racc::Parser
       require 'strscan'
 
@@ -57,7 +58,7 @@ class SQLParser::Parser < Racc::Parser
           token = case @state
             when nil
           case
-                  when (text = @ss.scan(/\'/i))
+                  when (text = @ss.scan(/'/i))
                      action { self.state = :STRS;  [:quote, text] }
 
                   when (text = @ss.scan(/true/i))
@@ -72,7 +73,7 @@ class SQLParser::Parser < Racc::Parser
                   when (text = @ss.scan(/:\w+/i))
                      action { [:variable, text] }
 
-                  when (text = @ss.scan(/\"/i))
+                  when (text = @ss.scan(/"/i))
                      action { self.state = :STRD;  [:quote, text] }
 
                   when (text = @ss.scan(/[0-9]*\.[0-9]+/i))
@@ -303,12 +304,6 @@ class SQLParser::Parser < Racc::Parser
                   when (text = @ss.scan(/,/i))
                      action { [:comma, text] }
 
-                  when (text = @ss.scan(/----/i))
-                    ;
-
-                  when (text = @ss.scan(/require/i))
-                    ;
-
           
           else
             text = @ss.string[@ss.pos .. -1]
@@ -317,11 +312,11 @@ class SQLParser::Parser < Racc::Parser
 
             when :STRS
           case
-                  when (text = @ss.scan(/\'(?=[^\']|$)/i))
-                     action { self.state = nil;    [:quote, text] }
+                  when (text = @ss.scan(/(?:\\'|''|[^'])+/i))
+                     action { [:character_string_literal, unescape_single_quote(text)] }
 
-                  when (text = @ss.scan(/(?:[^\'\\]|\'\'|\\\')*/i))
-                     action { [:character_string_literal, text.gsub("''","'").gsub("\\'", "'")] }
+                  when (text = @ss.scan(/'/i))
+                     action {  self.state = nil;    [:quote, text] }
 
           
           else
@@ -331,11 +326,11 @@ class SQLParser::Parser < Racc::Parser
 
             when :STRD
           case
-                  when (text = @ss.scan(/\"(?=[^\"]|$)/i))
-                     action { self.state = nil;    [:quote, text] }
+                  when (text = @ss.scan(/(?:\\"|""|[^"])+/i))
+                     action { [:character_string_literal, unescape_double_quote(text)] }
 
-                  when (text = @ss.scan(/(?:[^\"\\]|\"\"|\\\")*/i))
-                     action { [:character_string_literal, text.gsub('""', '"').gsub("\\\"", "\"")] }
+                  when (text = @ss.scan(/"/i))
+                     action { self.state = nil;    [:quote, text] }
 
           
           else
@@ -349,4 +344,10 @@ class SQLParser::Parser < Racc::Parser
           token
         end  # def _next_token
 
+  def unescape_single_quote(str)
+    str.gsub(/\\'|''|\\\\/, '\\\''=>"'", "''"=> "'", "\\\\"=>"\\")
+  end
+  def unescape_double_quote(str)
+    str.gsub(/\\"|""|\\\\/, '\\"'=>'"', '""'=> '"', "\\\\"=>"\\")
+  end
 end # class

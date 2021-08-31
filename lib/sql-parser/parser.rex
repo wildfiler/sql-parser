@@ -1,3 +1,4 @@
+require 'date'
 class SQLParser::Parser
 
 option
@@ -7,6 +8,10 @@ macro
   DIGIT   [0-9]
   UINT    {DIGIT}+\.?
   UFLOAT   [0-9]*\.[0-9]+
+  DOUBLEQUOTE "
+  STRING_IN_DOUBLEQUOTE [^"]*
+  SINGLEQUOTE '
+  STRING_IN_SINGLEQUOTE [^']*
 
   BLANK   \s+
 
@@ -32,18 +37,18 @@ rule
 
 # literals
 
-            \'              { self.state = :STRS;  [:quote, text] }
-  :STRS     \'(?=[^\']|$)   { self.state = nil;    [:quote, text] }
-  :STRS     (?:[^\'\\]|\'\'|\\\')* { [:character_string_literal, text.gsub("''","'").gsub("\\'", "'")] }
+            '              { self.state = :STRS;  [:quote, text] }
+  :STRS     (?:\\'|''|[^'])+ { [:character_string_literal, unescape_single_quote(text)] }
+  :STRS     '   {  self.state = nil;    [:quote, text] }
 
             {TRUE}        { [:true_literal, true] }
             {FALSE}       { [:false_literal, false] }
             \?            { [:variable, text] }
             {SYMBOL}      { [:variable, text] }
 
-            \"              { self.state = :STRD;  [:quote, text] }
-  :STRD     \"(?=[^\"]|$)   { self.state = nil;    [:quote, text] }
-  :STRD     (?:[^\"\\]|\"\"|\\\")* { [:character_string_literal, text.gsub('""', '"').gsub("\\\"", "\"")] }
+            "              { self.state = :STRD;  [:quote, text] }
+  :STRD     (?:\\"|""|[^"])+  { [:character_string_literal, unescape_double_quote(text)] }
+  :STRD     "   { self.state = nil;    [:quote, text] }
 
             {UFLOAT}      { [:unsigned_float, text.to_f] }
             {UINT}        { [:unsigned_integer, text.to_i] }
@@ -132,5 +137,11 @@ rule
             ,             { [:comma, text] }
 
 
----- header ----
-require 'date'
+inner
+  def unescape_single_quote(str)
+    str.gsub(/\\'|''|\\\\/, '\\\''=>"'", "''"=> "'", "\\\\"=>"\\")
+  end
+
+  def unescape_double_quote(str)
+    str.gsub(/\\"|""|\\\\/, '\\"'=>'"', '""'=> '"', "\\\\"=>"\\")
+  end
