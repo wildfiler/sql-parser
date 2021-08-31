@@ -13,7 +13,7 @@ module SQLParser
     def visit_Insert(o)
       name = visit(o.table_reference)
       columns = ' ' + visit(o.column_list) if o.column_list
-      values = ' VALUES ' + visit(o.in_value_list)
+      values = ' VALUES ' + visit(o.in_values_list)
       "INSERT INTO #{name}#{columns}#{values}"
     end
 
@@ -172,6 +172,10 @@ module SQLParser
 
     def visit_InColumnList(o)
       "(#{arrayize(o.columns)})"
+    end
+
+    def visit_InValuesList(o)
+      arrayize(o.values)
     end
 
     def visit_InValueList(o)

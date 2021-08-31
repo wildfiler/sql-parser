@@ -74,8 +74,15 @@ rule
     : value_expression comma in_column_list { result = Array(val[0]) + Array(val[2]) }
 	  | value_expression
 
+  in_values_expression
+    : left_paren in_value_list right_paren { result = SQLParser::Statement::InValueList.new(val[1]) }
+
+  in_values_list
+    : in_values_expression comma in_values_list { result = Array(val[0]) + Array(val[2]) }
+    | in_values_expression
+
   value_list
-    : VALUES left_paren in_value_list right_paren { result = SQLParser::Statement::InValueList.new(val[2]) }
+    : VALUES in_values_list { result = SQLParser::Statement::InValuesList.new(Array(val[1])) }
 
   query_specification
     : SELECT distinct_select_list table_expression order_by_clause limit_clause { result = SQLParser::Statement::Select.new(val[1], val[2], val[3], val[4]) }
@@ -236,7 +243,7 @@ rule
   boolean_primary
     : predicate
     | left_paren search_condition right_paren { result = val[1] }
-    | boolean_literal 
+    | boolean_literal
 
   predicate
     : comparison_predicate
@@ -265,24 +272,24 @@ rule
     | general_function
 
   case_expression
-    : CASE when_expressions END { result = SQLParser::Statement::CaseClause.new(nil,val[1], nil) } 
+    : CASE when_expressions END { result = SQLParser::Statement::CaseClause.new(nil,val[1], nil) }
     | CASE when_expressions ELSE value_expression END  { result = SQLParser::Statement::CaseClause.new(nil,val[1], val[3]) }
     | CASE term when_value_expressions END { result = SQLParser::Statement::CaseClause.new(val[1], val[2], nil) }
     | CASE term when_value_expressions ELSE value_expression END { result = SQLParser::Statement::CaseClause.new(val[1], val[2], val[4]) }
 
 
   when_value_expression
-   : WHEN value_expression THEN value_expression { result = SQLParser::Statement::WhenClause.new(val[1], val[3]) } 
+   : WHEN value_expression THEN value_expression { result = SQLParser::Statement::WhenClause.new(val[1], val[3]) }
 
   when_value_expressions
    : when_value_expression { result = [ val[0] ] }
-   | when_value_expressions when_value_expression { result = [ *val[0], val[1] ] } 
+   | when_value_expressions when_value_expression { result = [ *val[0], val[1] ] }
 
   when_expression
-   : WHEN search_condition THEN value_expression { result = SQLParser::Statement::WhenClause.new(val[1], val[3])  } 
+   : WHEN search_condition THEN value_expression { result = SQLParser::Statement::WhenClause.new(val[1], val[3])  }
 
   when_expressions
-   : when_expression { result = [ val[0] ] } 
+   : when_expression { result = [ val[0] ] }
    | when_expressions when_expression { result = [ *val[0], val[1] ] }
 
   value_expression
@@ -380,7 +387,7 @@ rule
   date_literal
     : DATE date_string { result = SQLParser::Statement::Date.new(val[1]) }
 
-   
+
 ---- header ----
 require File.dirname(__FILE__) + '/parser.rex.rb'
 

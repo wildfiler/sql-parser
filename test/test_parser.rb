@@ -37,6 +37,7 @@ class TestParser < Test::Unit::TestCase
 
   def test_insert_into_clause
     assert_understands 'INSERT INTO `users` VALUES (1, 2)'
+    assert_understands 'INSERT INTO `users` VALUES (1, 2), (3, 4)'
     assert_understands 'INSERT INTO `users` VALUES (`a`, `b`)'
   end
 

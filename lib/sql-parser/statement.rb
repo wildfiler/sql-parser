@@ -30,15 +30,15 @@ module SQLParser
 
     class Insert < Node
 
-      def initialize(table_reference, column_list, in_value_list)
+      def initialize(table_reference, column_list, in_values_list)
         @table_reference = table_reference
         @column_list = column_list
-        @in_value_list = in_value_list
+        @in_values_list = in_values_list
       end
 
       attr_accessor :table_reference
       attr_accessor :column_list
-      attr_accessor :in_value_list
+      attr_accessor :in_values_list
 
     end
 
@@ -362,6 +362,16 @@ module SQLParser
     end
 
     class InValueList < Node
+
+      def initialize(values)
+        @values = values
+      end
+
+      attr_accessor :values
+
+    end
+
+    class InValuesList < Node
 
       def initialize(values)
         @values = values
