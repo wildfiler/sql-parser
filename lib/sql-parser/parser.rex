@@ -34,7 +34,7 @@ rule
 
             \'              { self.state = :STRS;  [:quote, text] }
   :STRS     \'(?=[^\']|$)   { self.state = nil;    [:quote, text] }
-  :STRS     (?:[^\']|\'\')* { [:character_string_literal, text.gsub("''", "'")] }
+  :STRS     (?:[^\'\\]|\'\'|\\\')* { [:character_string_literal, text.gsub("''","'").gsub("\\'", "'")] }
 
             {TRUE}        { [:true_literal, true] }
             {FALSE}       { [:false_literal, false] }
@@ -43,7 +43,7 @@ rule
 
             \"              { self.state = :STRD;  [:quote, text] }
   :STRD     \"(?=[^\"]|$)   { self.state = nil;    [:quote, text] }
-  :STRD     (?:[^\"]|\"\")* { [:character_string_literal, text.gsub('""', '"')] }
+  :STRD     (?:[^\"\\]|\"\"|\\\")* { [:character_string_literal, text.gsub('""', '"').gsub("\\\"", "\"")] }
 
             {UFLOAT}      { [:unsigned_float, text.to_f] }
             {UINT}        { [:unsigned_integer, text.to_i] }

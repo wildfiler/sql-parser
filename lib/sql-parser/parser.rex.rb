@@ -320,8 +320,8 @@ class SQLParser::Parser < Racc::Parser
                   when (text = @ss.scan(/\'(?=[^\']|$)/i))
                      action { self.state = nil;    [:quote, text] }
 
-                  when (text = @ss.scan(/(?:[^\']|\'\')*/i))
-                     action { [:character_string_literal, text.gsub("''", "'")] }
+                  when (text = @ss.scan(/(?:[^\'\\]|\'\'|\\\')*/i))
+                     action { [:character_string_literal, text.gsub("''","'").gsub("\\'", "'")] }
 
           
           else
@@ -334,8 +334,8 @@ class SQLParser::Parser < Racc::Parser
                   when (text = @ss.scan(/\"(?=[^\"]|$)/i))
                      action { self.state = nil;    [:quote, text] }
 
-                  when (text = @ss.scan(/(?:[^\"]|\"\")*/i))
-                     action { [:character_string_literal, text.gsub('""', '"')] }
+                  when (text = @ss.scan(/(?:[^\"\\]|\"\"|\\\")*/i))
+                     action { [:character_string_literal, text.gsub('""', '"').gsub("\\\"", "\"")] }
 
           
           else
